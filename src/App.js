@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./page/Dashboard";
+import Aboutus from "./page/Aboutus";
+import FileNotFound from "./page/FileNotFound";
+import Auth from "./page/Auth";
+import "./style/Main.scss"
+import ProtectedRoute from "./function/ProtectedRoute";
+import { CookiesProvider } from "react-cookie";
+import { LayoutProvider } from "./hook/Layout/LayoutContext";
+import LayoutSwitch from "./hook/Layout/LayoutSwitch";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <CookiesProvider> {/* Cung cấp context cho cookies */}
+      <LayoutProvider>
+        <LayoutSwitch>
+          <Routes>
+            {/* Protected admin routes */}
+            <Route path="/admin/*" element={<ProtectedRoute />}>
+              <Route index element={<Dashboard />} />
+              <Route path="about" element={<Aboutus />} />
+              <Route path="*" element={<FileNotFound />} />
+            </Route>
+
+            {/* Public routes */}
+            <Route path="/" element={<Auth />} />
+          </Routes>
+        </LayoutSwitch>
+      </LayoutProvider>
+    </CookiesProvider>
   );
 }
 

@@ -1,0 +1,84 @@
+[
+  {
+    "route":"/admin",
+    "icon":"fa-solid fa-house",
+    "name":"Dashboard",
+    "child":[
+
+    ]
+  },
+  {
+    "route":"",
+    "icon":"fa-solid fa-hospital",
+    "name":"Hospital",
+    "child":[
+        { 
+        "route":"/admin/hospital/list",
+        "icon":"",
+        "name":"List Hospital"
+      },
+      { 
+        "route":"/admin/hospital/create",
+        "icon":"",
+        "name":"Create Hospital"
+      }
+    ]
+  },
+  {
+    "route":"/admin/about",
+    "icon":"fa-solid fa-calendar-days",
+    "name":"Service",
+    "child":[
+      { 
+        "route":"/admin/service/booking",
+        "icon":"",
+        "name":"Booking"
+      },
+      { 
+        "route":"/admin/service/tuvan",
+        "icon":"",
+        "name":"Tu van"
+      }
+    ]
+  },
+  {
+    "route":"/admin/notification",
+    "icon":"fa-solid fa-bell",
+    "name":"Notification",
+    "child":[
+
+    ]
+  },
+  {
+    "route":"/admin/analysis",
+    "icon":"fa-solid fa-chart-line",
+    "name":"Analysis",
+    "child":[
+
+    ]
+  },
+  {
+    "route":"/admin/account",
+    "icon":"fa-solid fa-user",
+    "name":"Account",
+    "child":[
+
+    ]
+  },
+  {
+    "route":"/admin/setting",
+    "icon":"fa-solid fa-gear",
+    "name":"Setting",
+    "child":[
+
+    ]
+  },
+  {
+    "route":"/admin/setting",
+    "icon":"fa-solid fa-gear",
+    "name":"Setting",
+    "child":[
+
+    ]
+  }
+]
