@@ -1,0 +1,62 @@
+.createHospital_P {
+  padding: 1rem;
+  form {
+    padding: 1rem;
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.3rem var(--shadow-black);
+    .title {
+      text-align: center;
+      font-size: var(--fz_medium);
+      font-weight: 800;
+      padding: 0 0 1rem;
+    }
+    .container {
+      display: grid;
+
+      grid-template-columns: 2fr 1fr;
+      gap: 1rem;
+      .right {
+        padding: 1rem;
+        display: flex;
+        justify-content: space-around;
+        height: fit-content;
+
+        button {
+          padding: 0.5rem 3rem;
+        }
+      }
+      .left {
+        width: 100%;
+        overflow: hidden;
+        .b_2 {
+          display: grid;
+          grid-template-columns: 1fr 1fr 2fr;
+          gap: 1rem;
+          width: 100%;
+        }
+        .b_1 {
+          display: grid;
+          grid-template-columns: 1fr 1.5fr;
+          gap: 1rem;
+          width: 100%;
+        }
+        .b_3 {
+          display: grid;
+          grid-template-columns: 1fr 1fr 2fr;
+          gap: 1rem;
+          width: 100%;
+        }
+        .b_4 {
+          display: grid;
+          grid-template-columns: 1fr 4fr;
+          gap: 1rem;
+
+          width: 100%;
+          height: max-content;
+          color: rgba(128, 128, 128, 0.106);
+        }
+      }
+    }
+  }
+}
