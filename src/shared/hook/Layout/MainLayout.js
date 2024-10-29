@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Navbar from "../../layout/Navbar";
 import SideBar from '../../layout/SideBar';
+import { useLocation } from 'react-router-dom';
 
 const MainLayout = ({ children }) => {
     const navbarRef = useRef(null); // Ref to store the navbar reference
@@ -12,6 +13,17 @@ const MainLayout = ({ children }) => {
             setNavbarHeight(navbarRef.current.offsetHeight); // Get the height of the navbar
         }
     }, [navbarRef]); // Run this effect only once after the initial render
+
+
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }, [pathname]);
+
+
+
+
     return (
         <div style={mainStyle}>
             <div style={sideBarStyle}>

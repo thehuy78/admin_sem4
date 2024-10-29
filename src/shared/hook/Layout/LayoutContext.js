@@ -14,6 +14,7 @@ export const LayoutProvider = ({ children }) => {
         } else {
             setLayout('auth');
         }
+
     }, [location.pathname]);
     const value = {
         layout,

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Cropper from 'react-easy-crop';
 import { useDropzone } from 'react-dropzone';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import getCroppedImg from '../../function/cropImageHelper'; // Thêm file helper để xử lý crop ảnh
 
 const FullScreenCropContainer = styled.div`
@@ -60,6 +60,24 @@ const Container = styled.div`
   p {
     font-size: var(--fz_title);
   }
+
+  ${(props) =>
+    props.$isDragReject &&
+    css`
+      border-color: red;
+    `}
+
+  ${(props) =>
+    props.$isDragAccept &&
+    css`
+      border-color: green;
+    `}
+
+  ${(props) =>
+    props.$isFocused &&
+    css`
+      border-color: blue;
+    `}
 `;
 
 const ImageWrapper = styled.div`
@@ -168,17 +186,14 @@ export default function InputImageCrop({ Textlabel, isRequire, err, fnChange, as
       console.error(e);
     }
   };
-
   const handleRemoveImage = () => {
     setCroppedImage(null);
     setCroppedFile(null); // Xóa file khi người dùng xóa ảnh
   };
-
   useEffect(() => {
     if (effect) {
       fnChange(croppedFile)
     }
-
   }, [effect, croppedFile, fnChange]);
 
   return (
@@ -186,7 +201,12 @@ export default function InputImageCrop({ Textlabel, isRequire, err, fnChange, as
       <Label>{Textlabel}{isRequire && (<span>*</span>)}</Label>
       <div className="container" style={{ width: '10rem', height: '10rem' }}>
         {!croppedImage && !cropping ? (
-          <Container {...getRootProps({ isFocused, isDragAccept, isDragReject })}>
+          <Container
+            {...getRootProps({
+              $isFocused: isFocused,
+              $isDragAccept: isDragAccept,
+              $isDragReject: isDragReject
+            })}>
             <input {...getInputProps()} />
             <p>+</p>
           </Container>

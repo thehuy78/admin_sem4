@@ -8,37 +8,28 @@
     ]
   },
   {
-    "route":"",
+    "route":"/admin/hospital",
     "icon":"fa-solid fa-hospital",
     "name":"Hospital",
     "child":[
-        { 
-        "route":"/admin/hospital",
-        "icon":"",
-        "name":"List Hospital"
-      },
-      { 
-        "route":"/admin/hospital/create",
-        "icon":"",
-        "name":"Create Hospital"
-      }
+     
     ]
   },
   {
-    "route":"/admin/about",
-    "icon":"fa-solid fa-calendar-days",
+    
+    "route":"",
+    "icon":"fa-solid fa-hand-holding-heart",
     "name":"Service",
     "child":[
-      { 
-        "route":"/admin/service/booking",
-        "icon":"",
-        "name":"Booking"
-      },
-      { 
-        "route":"/admin/service/tuvan",
-        "icon":"",
-        "name":"Tu van"
-      }
+      
+    ]
+  },
+  {
+    "route":"/admin/booking/list/all",
+    "icon":"fa-solid fa-calendar-days",
+    "name":"Booking",
+    "child":[
+      
     ]
   },
   {
@@ -52,23 +43,33 @@
   {
     "route":"/admin/analysis",
     "icon":"fa-solid fa-chart-line",
-    "name":"Analysis",
+    "name":"Analysis Report",
     "child":[
 
     ]
   },
   {
-    "route":"/admin/account",
+    "route":"/admin/account/customer",
     "icon":"fa-solid fa-user",
     "name":"Account",
     "child":[
-
+      { 
+        "route":"/admin/account/customer",
+        "icon":"",
+        "name":"Customer"
+      },
+      { 
+        "route":"/admin/account/admin",
+        "icon":"",
+        "name":"Admin"
+      }
     ]
   },
   {
-    "route":"/admin/setting",
-    "icon":"fa-solid fa-gear",
-    "name":"Setting",
+   
+    "route":"/admin/transaction",
+    "icon":"fa-solid fa-comment-dollar",
+    "name":"Transaction",
     "child":[
 
     ]

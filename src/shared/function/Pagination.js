@@ -1,3 +1,5 @@
+import DepartmentItem from "../../features/Department/component/DepartmentItem";
+import DoctorItem from "../../features/Doctor/component/DoctorItem";
 import HospitalItem from "../../features/Hospital/component/HospitalItem";
 
 export const renderItem = (currentPage, perPage, data, type) => {
@@ -12,6 +14,12 @@ export const renderItem = (currentPage, perPage, data, type) => {
     currentList.map((item, index) => {
       if (type === "hospital") {
         return <HospitalItem item={item} key={index} />;
+      } else if (type === "department") {
+        return <DepartmentItem item={item} key={index} />;
+
+      } else if (type === "doctor") {
+        return <DoctorItem item={item} key={index} />;
+
       } else {
         return null; // Handle other cases or provide a fallback if necessary
       }

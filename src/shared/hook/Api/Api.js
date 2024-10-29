@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { withCookies } from 'react-cookie';
 
 
-const urlApi = "https://localhost:7229/api/";
+const urlApi = "http://localhost:8080/api/admin/";
 
 export const apiRequestForm = async (method, uri, data = null) => {
     try {
@@ -31,6 +32,7 @@ export const apiRequest = async (method, uri, data = null) => {
                 "Content-Type": "application/json",
             },
             data: data
+            , withCredentials: true,
         };
 
         const response = await axios(config);

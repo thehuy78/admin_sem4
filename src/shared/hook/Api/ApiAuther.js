@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const urlApi = "https://localhost:7229/api/";
+const urlApi = "http://localhost:8080/api/admin/";
 
 export const apiRequestAutherize = async (method, uri, cookies, data = null) => {
     try {

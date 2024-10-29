@@ -6,7 +6,7 @@ const BoxInput = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  padding-bottom:1.5rem;
+  padding-bottom: 1.5rem;
 `;
 
 const Label = styled.label`
@@ -42,18 +42,18 @@ const Input = styled.textarea`
   padding: 0.7rem 0.5rem;
   border: none;
   outline: none;
-  min-height:8rem;
+  min-height: 8rem;
   border-radius: 0.3rem;
-   border: 0.05rem solid var(--shadow-black);
+  border: 0.05rem solid var(--shadow-black);
   box-shadow: 0 0 2px var(--shadow-black);
 
   &:focus {
-   border: 1px solid var(--active);
+    border: 1px solid var(--active);
   }
 
   /* Conditional error styling */
   ${(props) =>
-    props.hasError &&
+    props.$hasError && // Use $hasError to avoid passing it to the DOM
     css`
       border-color: red;
     `}
@@ -71,9 +71,9 @@ export default function TextArea({ typeInput, Textlabel, isRequire, err, Textpla
           placeholder={Textplacehoder}
           onChange={fnChange}
           type={typeInput}
-          hasError={err && err !== ''}  // Pass a prop to conditionally apply error styling
+          $hasError={err && err !== ''}  // Use $hasError instead of hasError
         />
-        <span>{err & err !== '' ? '* ' + err : ''}</span>
+        <span>{err && err !== '' ? '* ' + err : ''}</span>
       </BoxInputWrapper>
     </BoxInput>
   );

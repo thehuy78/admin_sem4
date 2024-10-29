@@ -234,7 +234,7 @@ export default function MultiInputImageCrop({ GirdColumn, Textlabel, isRequire, 
         {croppedImages.map((image, index) => (
           <ImageWrapper key={index}>
             <ImagePreview src={image} style={{ aspectRatio: aspectWH }} alt="Preview" />
-            <CloseButton onClick={() => handleRemoveImage(index)}><i class="fa-regular fa-trash-can"></i></CloseButton>
+            <CloseButton onClick={() => handleRemoveImage(index)}><i className="fa-regular fa-trash-can"></i></CloseButton>
           </ImageWrapper>
         ))}
 

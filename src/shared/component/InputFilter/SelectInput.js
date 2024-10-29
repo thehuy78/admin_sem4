@@ -1,17 +1,17 @@
 import React from 'react'
 import Select from 'react-select';
-export default function SelectInput({ defaultVl, options, fnChangeOption, multi }) {
+export default function SelectInput({ defaultVl, options, fnChangeOption, multi, placeholder, minWidth }) {
   return (
     <Select
       value={defaultVl}
-
+      placeholder={placeholder}
       onChange={fnChangeOption}
       options={options}
       isMulti={multi}
       styles={{
         control: (base) => ({
           ...base,
-          minWidth: '12rem',
+          minWidth: minWidth || "12rem",
           fontSize: '1rem',
           isMulti: true,
           // padding: '0.3rem',

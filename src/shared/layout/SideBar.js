@@ -43,14 +43,17 @@ export default function SideBar() {
 
               </Link>
               {item.child && item.child.length > 0 && (
-                <i class={!listShow.includes(index) ? "fa-solid fa-angle-down" : "fa-solid fa-angle-down rotate"} onClick={() => handleClickShow(index)}></i>
+                <i className={listShow.includes(index) ? "fa-solid fa-angle-down" : "fa-solid fa-angle-down rotate"} onClick={() => handleClickShow(index)}></i>
               )}
             </div>
-            <div className={listShow.includes(index) ? "list_hide" : 'list_show'}>
+
+            <div className={!listShow.includes(index) ? "list_hide" : 'list_show'}>
               {item.child && item.child.length > 0 && item.child.map((items, indexs) => (
                 <Link onClick={() => handleClickItemChild(indexs, index)} to={items.route !== "" ? items.route : "#"} className={itemChildCurrent === indexs && itemCurrent === index ? 'link_tag child_choice' : 'link_tag'} key={indexs}><span>{items.name}</span></Link>
               ))}
             </div>
+
+
 
           </div>
         ))}

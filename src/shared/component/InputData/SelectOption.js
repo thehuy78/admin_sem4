@@ -40,7 +40,7 @@ const BoxInputWrapper = styled.div`
   }
 `;
 export default function SelectOption({ nameLabel, nameValue, Textlabel, Textplacehoder, isRequire, err, defaultVl, options, fnChangeOption, multi }) {
-  console.log(options);
+
   return (
     <BoxInput>
       <Label>{Textlabel} {isRequire && (<span>*</span>)}</Label>
@@ -71,7 +71,7 @@ export default function SelectOption({ nameLabel, nameValue, Textlabel, Textplac
             }),
           }}
         />
-        <span>{err & err !== '' ? '* ' + err : ''}</span>
+        <span>{err !== '' ? '* ' + err : ''}</span>
       </BoxInputWrapper>
     </BoxInput>
   )
