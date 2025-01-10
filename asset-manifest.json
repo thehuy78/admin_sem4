@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/admin_sem4/static/css/main.b1ba67cf.css",
+    "main.js": "/admin_sem4/static/js/main.14f5661f.js",
+    "static/js/453.3154de31.chunk.js": "/admin_sem4/static/js/453.3154de31.chunk.js",
+    "static/media/vietnam.geojson": "/admin_sem4/static/media/vietnam.7079ab08ef89b8845b8c.geojson",
+    "static/media/logo-05.png": "/admin_sem4/static/media/logo-05.32f2d93c4050c8089cc6.png",
+    "static/media/logo1blue.png": "/admin_sem4/static/media/logo1blue.c170a4e31cde3e31bf77.png",
+    "static/media/notification.svg?s3g3t9": "/admin_sem4/static/media/notification.5d0158671dd860c714c4.svg",
+    "static/media/notification.eot": "/admin_sem4/static/media/notification.3657084dc0419605a91c.eot",
+    "static/media/notification.woff?s3g3t9": "/admin_sem4/static/media/notification.c392cd33d9d9de730f9d.woff",
+    "static/media/notification.ttf?s3g3t9": "/admin_sem4/static/media/notification.c5d9251ea82e42f75381.ttf",
+    "index.html": "/admin_sem4/index.html",
+    "main.b1ba67cf.css.map": "/admin_sem4/static/css/main.b1ba67cf.css.map",
+    "main.14f5661f.js.map": "/admin_sem4/static/js/main.14f5661f.js.map",
+    "453.3154de31.chunk.js.map": "/admin_sem4/static/js/453.3154de31.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b1ba67cf.css",
+    "static/js/main.14f5661f.js"
+  ]
+}
