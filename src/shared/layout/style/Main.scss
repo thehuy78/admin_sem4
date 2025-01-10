@@ -383,7 +383,7 @@ table {
       min-width: 100px;
       border-radius: 0.5rem;
       cursor: pointer;
-      color: white;
+      color: white !important;
       text-transform: capitalize;
     }
     .deactive {
@@ -393,7 +393,7 @@ table {
       min-width: 100px;
       border-radius: 0.5rem;
       cursor: pointer;
-      color: white;
+      color: white !important;
       text-transform: capitalize;
     }
     .list_action {
