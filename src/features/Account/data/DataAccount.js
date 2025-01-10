@@ -46,7 +46,7 @@ export const ListAccountPage = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem 0;
+  padding:0 0 1rem 0;
 
   .section_filter {
     width: 100%;
@@ -57,7 +57,18 @@ export const ListAccountPage = styled.div`
 
     .left {
       display: flex;
-      gap: 1rem;
+      gap: 0.5rem;
+      button {
+        height: 2.5rem;
+       width:2.5rem;
+        outline: none;
+        border: none;
+        background-color: green;
+        color: white;
+        font-weight: 700;
+        border-radius: 0.3rem;
+        box-shadow: 0 0 0.2rem var(--shadow-black);
+      }
     }
     .right {
       display: flex;
@@ -152,6 +163,7 @@ export const ListAccountPage = styled.div`
                 border-radius: 0.5rem;
                 cursor: pointer;
                 color: white;
+                 text-transform: capitalize;
               }
               .deactive {
                 padding: 0.2rem;
@@ -160,6 +172,22 @@ export const ListAccountPage = styled.div`
                 border-radius: 0.5rem;
                 cursor: pointer;
                 color: white;
+                 text-transform: capitalize;
+              }
+                .b_action___ {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                .link_tag {
+                  i {
+                    display: flex;
+                    align-items: center;
+                    background-color: var(--cl_1);
+                    justify-content: center;
+                    padding:0.4rem ;
+                    border-radius: 0.2rem;
+                  }
+                }
               }
             }
           }
@@ -173,3 +201,51 @@ export const status = [
   { value: "active", label: "Active" },
   { value: "deactive", label: "Deactive" },
 ];
+
+
+export const CreateAccountPage = styled.div`
+
+  padding:0 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  .sec1 {
+    width: 100%;
+    form {
+      padding: 1rem;
+      width: 100%;
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 0.2rem var(--shadow-black);
+      .title {
+        text-align: center;
+        font-size: var(--fz_medium);
+        font-weight: 750;
+        padding-bottom: 1rem;
+      }
+      .form_input_container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 1rem;
+      }
+      .box_btn {
+        display: flex;
+        justify-content: center;
+        button {
+          padding: 0.5rem 3rem;
+          outline: none;
+          border: none;
+          border-radius: 0.3rem;
+          background-color: var(--cl_4);
+          color: white;
+          font-weight: 750;
+          box-shadow: 0 0 0.2rem var(--shadow-black);
+        }
+      }
+    }
+  }
+
+
+`;

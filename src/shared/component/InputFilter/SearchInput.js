@@ -33,7 +33,7 @@ const Icon = styled.i`
   font-size: 1rem;
 `;
 
-export default function SearchInput({ fnChangeCallback }) {
+export default function SearchInput({ fnChangeCallback, minwidth }) {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -43,6 +43,7 @@ export default function SearchInput({ fnChangeCallback }) {
         onChange={fnChangeCallback}
         placeholder="Search..."
         type="search"
+        style={{ minWidth: minwidth && minwidth }}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />

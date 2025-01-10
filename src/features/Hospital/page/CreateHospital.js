@@ -8,22 +8,24 @@ import InputImageCrop from '../../../shared/component/InputData/InputImageCrop';
 import MultiInputImageCrop from '../../../shared/component/InputData/MultiInputImage';
 import { ValidateRegex } from "../../../shared/function/ValidationInput"
 import Provinces from "../../../shared/data/Provinces.json"
-import { apiRequestAutherizeForm } from '../../../shared/hook/Api/ApiAuther';
+import { apiRequestAutherize, apiRequestAutherizeForm } from '../../../shared/hook/Api/ApiAuther';
 import { useAdminContext } from '../../../shared/hook/ContextToken';
 import { NotificationContainer } from 'react-notifications';
 import LoadingPage from '../../../shared/Config/LoadingPage';
 import { createNotification } from '../../../shared/Config/Notifications';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import swal from 'sweetalert';
+import MapApi from '../../../shared/component/InputData/MapApi';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import RichTextEditor from '../../../shared/component/InputData/RichTextEditor';
 
-
-const typehospital = [
-
-  { value: 1, label: 'Bệnh Viện Công' },
-  { value: 2, label: 'Bệnh Viện Tư' },
-  { value: 3, label: 'Phòng Khám' },
-  { value: 4, label: 'Trung Tâm Tiêm Chủng' },
-];
+// const typehospital = [
+//   { value: 1, label: 'Bệnh Viện Công' },
+//   { value: 2, label: 'Bệnh Viện Tư' },
+//   { value: 3, label: 'Phòng Khám' },
+//   { value: 4, label: 'Trung Tâm Tiêm Chủng' },
+// ];
 
 const workday = [
   { value: 'T2', label: 'Monday' },
@@ -36,9 +38,18 @@ const workday = [
 ];
 
 
+
+
 export default function CreateHospital() {
+  const formattedOptions = (options) => {
+    return options.map(option => ({
+      value: option.id,
+      label: option.name
+    }));
+  }
   const { token, user } = useAdminContext()
   const [isLoading, setIsLoading] = useState(false)
+  const [typeHospital, setTypeHospital] = useState([])
   const [, , removeCookie] = useCookies(["authorize_token_admin"]);
   const Navigate = useNavigate()
   const [errorForm, setErrorForm] = useState({
@@ -50,9 +61,11 @@ export default function CreateHospital() {
     district: '',
     address: '',
     opentime: '',
+    description: '',
     closetime: '',
     type: '',
-    workday: ''
+    workday: '',
+    map: ''
   })
   const [valueForm, setValueForm] = useState({
     type: null,
@@ -62,13 +75,35 @@ export default function CreateHospital() {
     img: [],
     province: '',
     district: '',
+    description: '',
     address: '',
     opentime: null,
     closetime: null,
-    name: ''
+    name: '',
+    map: null
 
   })
   const [districts, setDistricts] = useState([])
+
+  const fetchdata = useCallback(async () => {
+    try {
+      if (token) {
+        var rs = await apiRequestAutherize("GET", "type/getTypeHospital", token)
+
+        if (rs && rs.data && rs.data.status === 200) {
+          setTypeHospital(rs.data.data)
+        }
+      }
+
+    } catch (error) {
+
+    }
+  }, [token])
+
+  useEffect(() => {
+    fetchdata()
+  }, [fetchdata]);
+
 
   useEffect(() => {
     if (!valueForm.province !== '') {
@@ -86,7 +121,7 @@ export default function CreateHospital() {
     var value = e.target.value;
     const regex = /^.{6,}$/;
     var valid = ValidateRegex(regex, value.trim(), "Name must be 5-15 character")
-    console.log(valid);
+
     if (valid.status) {
       setErrorForm((prev) => ({
         ...prev,
@@ -113,7 +148,7 @@ export default function CreateHospital() {
     var value = e.target.value;
     const regex = /^[A-Z0-9]{4,5}$/;
     var valid = ValidateRegex(regex, value.trim(), "VD: [4-5] number and character")
-    console.log(valid);
+
     if (valid.status) {
       setErrorForm((prev) => ({
         ...prev,
@@ -160,7 +195,7 @@ export default function CreateHospital() {
       return false;
     }
   }
-  const handleInputLogo = useCallback((file) => {
+  const handleInputLogo = useCallback((file, img) => {
     if (file) {
       setValueForm((prev) => ({ ...prev, logo: file }))
       setErrorForm((prev) => ({ ...prev, logo: '' }))
@@ -177,7 +212,7 @@ export default function CreateHospital() {
     }
     else {
       setValueForm((prev) => ({ ...prev, img: [] }))
-      setErrorForm((prev) => ({ ...prev, img: 'logo not null' }))
+      setErrorForm((prev) => ({ ...prev, img: 'image not null' }))
     }
   }, [])
   const handleChangeOpenTime = (e) => {
@@ -225,9 +260,17 @@ export default function CreateHospital() {
     setErrorForm((prev) => ({ ...prev, province: '' }))
   }
 
-  useEffect(() => {
-    console.log(valueForm);
-  }, [valueForm]);
+  const handleChangeMap = (e) => {
+    if (e !== null) {
+      setValueForm((prev) => ({ ...prev, map: e }))
+      setErrorForm((prev) => ({ ...prev, map: '' }))
+    } else {
+      setValueForm((prev) => ({ ...prev, map: e }))
+      setErrorForm((prev) => ({ ...prev, map: "* Map is required" }))
+    }
+  }
+
+
 
 
   const validdationForm = () => {
@@ -236,6 +279,13 @@ export default function CreateHospital() {
       check = false
       if (errorForm.name === '') {
         setErrorForm((prev) => ({ ...prev, name: "Name not null" }))
+      }
+
+    }
+    if (valueForm.description === '') {
+      check = false
+      if (errorForm.description === '') {
+        setErrorForm((prev) => ({ ...prev, description: "description not null" }))
       }
 
     }
@@ -296,8 +346,16 @@ export default function CreateHospital() {
       check = false
       setErrorForm((prev) => ({ ...prev, logo: "Logo is not null" }))
     }
+    if (valueForm.img.length <= 0) {
+      check = false
+      setErrorForm((prev) => ({ ...prev, img: "Img is not null" }))
+    }
+    if (valueForm.map === null) {
+      check = false
+      setErrorForm((prev) => ({ ...prev, map: "* Map is not null" }))
+    }
     if (!check) {
-
+      console.log(valueForm.map);
       return false
     }
     return true
@@ -332,21 +390,39 @@ export default function CreateHospital() {
         hospital.append("address", valueForm.address)
         hospital.append("openTime", valueForm.opentime.toString())
         hospital.append("closeTime", valueForm.closetime.toString())
-        hospital.append("user", user.id)
         hospital.append("workDay", workday)
+        hospital.append("map", valueForm.map.lat + "; " + valueForm.map.lng)
+        hospital.append("description", valueForm.description || '')
+        // Append multiple image files
+        if (valueForm.img && valueForm.img.length > 0) {
+          valueForm.img.forEach((file) => {
+            hospital.append("photoImage", file); // Key can remain same for multiple files
+          });
+        }
+
         if (valueForm.logo !== null) {
-          console.log(valueForm.logo);
+
           hospital.append("photoFile", valueForm.logo);
         }
+        console.log(hospital);
         setIsLoading(true)
         var rs = await apiRequestAutherizeForm("POST", "hospital/create", token, hospital)
         console.log(rs);
         if (rs && rs.data && rs.data.status === 200) {
-          createNotification("success", "Create hospital success", "Success")();
-          Navigate("/admin/hospital")
+          // createNotification("success", "Create hospital success", "Success")();
+          swal("Create", "Create Hospital Successfuly!", "success").then((result) => {
+            if (result) {
+              Navigate("/admin/hospital")
+            }
+          });
+
+        } else if (rs && rs.data && rs.data.status === 202) {
+          swal("Create", rs.data.message, "error");
         } else {
           createNotification("error", "Create hospital fails", "Error")();
         }
+      } else {
+        swal("error", "Form validator !", "error");
       }
 
     } catch (error) {
@@ -384,138 +460,194 @@ export default function CreateHospital() {
           <i class="fa-solid fa-arrow-left"></i> Back
         </span>
       </section>
-      <form onSubmit={CreateHospital}>
-        <p className='title'>Create Hospital</p>
-        <div className='container'>
-          <div className='left'>
-            <InputComponent
-              Textlabel={"Name"}
-              Textplacehoder={"Input name hospital"}
-              isRequire={true}
-              err={errorForm.name}
-              key={"name"}
-              typeInput={"text"}
-              fnChange={handleChangeName}
-            />
-            <div className='b_1'>
-              <InputComponent
-                Textlabel={"Code"}
-                Textplacehoder={"Input Code hospital"}
-                isRequire={true}
-                typeInput={"text"}
-                err={errorForm.code}
-                key={"code"}
-                fnChange={handleChangeCode}
-              />
-              <SelectOption
-                Textlabel={"Type Hospital"}
-                Textplacehoder={"Select type..."}
-                isRequire={true}
-                err={errorForm.type}
-                key={"type"}
-                defaultVl={typehospital.find(type => type.value === valueForm.type)}
-                multi={false}
-                nameLabel={"label"}
-                nameValue={"value"}
-                options={typehospital}
-                fnChangeOption={handleChangeType}
-              />
-            </div>
-            <div className='b_2'>
+      <div className='box_form'>
+        <form onSubmit={CreateHospital}>
+          <p className='title'>Create Hospital</p>
+          <div className='container'>
+            <div className='left'>
+              <div className='b_1'>
+                <InputComponent
+                  Textlabel={"Name"}
+                  Textplacehoder={"Input name hospital"}
+                  isRequire={true}
+                  err={errorForm.name}
+                  key={"name"}
+                  typeInput={"text"}
+                  fnChange={handleChangeName}
+                />
+
+                <InputComponent
+                  Textlabel={"Code"}
+                  Textplacehoder={"Input Code hospital"}
+                  isRequire={true}
+                  typeInput={"text"}
+                  err={errorForm.code}
+                  key={"code"}
+                  fnChange={handleChangeCode}
+                />
+              </div>
 
 
-              <SelectOption
-                Textlabel={"Province"}
-                Textplacehoder={"Select Province..."}
-                isRequire={true}
-                err={errorForm.province}
-                key={"province"}
-                //defaultVl={Provinces.find(type => type.name === valueForm.province)}
-                multi={false}
-                nameLabel={"name"}
-                nameValue={"name"}
-                options={Provinces}
-                fnChangeOption={handleChangeProvince}
-              />
+              <div className='b_2'>
 
-              <SelectOption
-                Textlabel={"District"}
-                Textplacehoder={"Select District..."}
-                isRequire={true}
-                err={errorForm.district}
-                key={"district"}
-                //defaultVl={Provinces.find(type => type.name === valueForm.province)}
-                multi={false}
-                nameLabel={"name"}
-                nameValue={"name"}
-                options={districts}
-                fnChangeOption={handleChangeDistrict}
-              />
 
-              <InputComponent
-                Textlabel={"Address"}
-                Textplacehoder={"Input address hospital"}
-                isRequire={true}
-                err={errorForm.address}
-                key={"address"}
-                typeInput={"text"}
-                fnChange={handleChangeAddress}
-              />
-            </div>
-            <div className='b_3'>
-              <InputComponent
-                Textlabel={"Open Hours"}
+                <SelectOption
+                  Textlabel={"Province"}
+                  Textplacehoder={"Select Province..."}
+                  isRequire={true}
+                  err={errorForm.province}
+                  key={"province"}
+                  //defaultVl={Provinces.find(type => type.name === valueForm.province)}
+                  multi={false}
+                  nameLabel={"name"}
+                  nameValue={"name"}
+                  options={Provinces}
+                  fnChangeOption={handleChangeProvince}
+                />
+
+                <SelectOption
+                  Textlabel={"District"}
+                  Textplacehoder={"Select District..."}
+                  isRequire={true}
+                  err={errorForm.district}
+                  key={"district"}
+                  //defaultVl={Provinces.find(type => type.name === valueForm.province)}
+                  multi={false}
+                  nameLabel={"name"}
+                  nameValue={"name"}
+                  options={districts}
+                  fnChangeOption={handleChangeDistrict}
+                />
+
+                <InputComponent
+                  Textlabel={"Address"}
+                  Textplacehoder={"Input address hospital"}
+                  isRequire={true}
+                  err={errorForm.address}
+                  key={"address"}
+                  typeInput={"text"}
+                  fnChange={handleChangeAddress}
+                />
+              </div>
+              <div className='b_3'>
+                <SelectOption
+                  Textlabel={"Type Hospital"}
+                  Textplacehoder={"Select type..."}
+                  isRequire={true}
+                  err={errorForm.type}
+                  key={"type"}
+                  defaultVl={formattedOptions(typeHospital).find(type => type.value === valueForm.type)}
+                  multi={false}
+                  nameLabel={"label"}
+                  nameValue={"value"}
+                  options={formattedOptions(typeHospital)}
+                  fnChangeOption={handleChangeType}
+                />
+                <InputComponent
+                  Textlabel={"Open Hours"}
+                  Textplacehoder={""}
+                  isRequire={true}
+                  err={errorForm.opentime}
+                  key={"openhours"}
+                  typeInput={"time"}
+                  fnChange={handleChangeOpenTime}
+                />
+                <InputComponent
+                  Textlabel={"Close Hours"}
+                  Textplacehoder={""}
+                  isRequire={true}
+                  err={errorForm.closetime}
+                  key={"closehours"}
+                  typeInput={"time"}
+                  fnChange={handleChangeCloseTime}
+                />
+                <SelectOption
+                  Textlabel={"Workday"}
+                  Textplacehoder={"Select workday..."}
+                  isRequire={true}
+                  err={errorForm.workday}
+                  key={"workday"}
+                  nameLabel={"label"}
+                  nameValue={"value"}
+                  defaultVl={workday.filter(type => valueForm.workday.includes(type.value))} // Đảm bảo giá trị ban đầu là một mảng khi multi-select
+                  multi={true}
+                  options={workday}
+                  fnChangeOption={handleChangeWorkday}
+                />
+              </div>
+              {/* <RichTextEditor
+                Textlabel={"Description"}
                 Textplacehoder={""}
+                isRequire={false}
+                err={errorForm.description}
+                key={"desciption"}
+                typeInput={"text"}
+                defaultValue={valueForm.description}
+                fnChange={(e) => { setValueForm((prev) => ({ ...prev, description: e })) }}
+              /> */}
+
+              <RichTextEditor
+                Textlabel={"Description"}
+                defaultValue={valueForm.description}
                 isRequire={true}
-                err={errorForm.opentime}
-                key={"openhours"}
-                typeInput={"time"}
-                fnChange={handleChangeOpenTime}
+                err={errorForm.description}
+                typeInput={"Text"}
+                fnChange={(value) => {
+                  console.log(value);
+                  var description = value
+                  setValueForm((prev) => ({
+                    ...prev,
+                    description: description
+                  }))
+                  if (description.trim() !== '') {
+                    setErrorForm((prev) => ({
+                      ...prev,
+                      description: ''
+                    }))
+                  } else {
+                    setErrorForm((prev) => ({
+                      ...prev,
+                      description: 'description is required'
+                    }))
+                  }
+
+                }}
               />
-              <InputComponent
-                Textlabel={"Close Hours"}
-                Textplacehoder={""}
-                isRequire={true}
-                err={errorForm.closetime}
-                key={"closehours"}
-                typeInput={"time"}
-                fnChange={handleChangeCloseTime}
+
+              <div className='b_4'>
+                <InputImageCrop key={"logo"} Textlabel={"Logo Hospital"} aspectWH={1 / 1} isRequire={true} err={errorForm.logo} fnChange={handleInputLogo} />
+                <MultiInputImageCrop key={"image"} GirdColumn={5} Textlabel={"Image Hospital"} aspectWH={1 / 1} isRequire={true} err={errorForm.img} fnChange={handleInputImage} />
+              </div>
+
+              <MapApi
+                label={"Map Address"}
+                placeholder={"Input address..."}
+                required={true}
+                errors={errorForm.map}
+                functionCallback={handleChangeMap}
               />
-              <SelectOption
-                Textlabel={"Workday"}
-                Textplacehoder={"Select workday..."}
-                isRequire={true}
-                err={errorForm.workday}
-                key={"workday"}
-                nameLabel={"label"}
-                nameValue={"value"}
-                defaultVl={workday.filter(type => valueForm.workday.includes(type.value))} // Đảm bảo giá trị ban đầu là một mảng khi multi-select
-                multi={true}
-                options={workday}
-                fnChangeOption={handleChangeWorkday}
-              />
+              {/* {valueForm && valueForm.map && valueForm.map.lat && valueForm.map.lng && (
+                <MapContainer center={[valueForm.map.lat, valueForm.map.lng]} zoom={13} scrollWheelZoom={false}>
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  <Marker position={[valueForm.map.lat, valueForm.map.lng]}>
+                    <Popup>
+                      A pretty CSS3 popup. <br /> Easily customizable.
+                    </Popup>
+                  </Marker>
+                </MapContainer>
+              )} */}
+
             </div>
-            <TextArea
-              Textlabel={"Description"}
-              Textplacehoder={""}
-              isRequire={true}
-              err={errorForm.name}
-              key={"desciption"}
-              typeInput={"text"}
-              fnChange={handleChangeName}
-            />
-            <div className='b_4'>
-              <InputImageCrop key={"logo"} Textlabel={"Logo Hospital"} aspectWH={1 / 1} isRequire={true} err={errorForm.logo} fnChange={handleInputLogo} />
-              <MultiInputImageCrop key={"image"} GirdColumn={3} Textlabel={"Image Hospital"} aspectWH={1 / 1} isRequire={true} err={errorForm.img} fnChange={handleInputImage} />
+            <div className='right'>
+              <button type='submit' className='btn_submit'>Create</button>
+              <button type='reset' className='btn_reset'>Reset</button>
             </div>
-            {/* <InputMap /> */}
           </div>
-          <div className='right'>
-            <button type='submit' className='btn_submit'>Create</button>
-            <button type='reset' className='btn_reset'>Reset</button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   )
 }

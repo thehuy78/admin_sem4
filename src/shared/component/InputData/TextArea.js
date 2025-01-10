@@ -60,7 +60,7 @@ const Input = styled.textarea`
 `;
 
 // React Component
-export default function TextArea({ typeInput, Textlabel, isRequire, err, Textplacehoder, fnChange }) {
+export default function TextArea({ defaultValue, typeInput, Textlabel, isRequire, err, Textplacehoder, fnChange }) {
   return (
     <BoxInput>
       <Label>
@@ -68,6 +68,7 @@ export default function TextArea({ typeInput, Textlabel, isRequire, err, Textpla
       </Label>
       <BoxInputWrapper>
         <Input
+          defaultValue={defaultValue}
           placeholder={Textplacehoder}
           onChange={fnChange}
           type={typeInput}

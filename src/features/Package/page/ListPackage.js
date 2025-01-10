@@ -105,7 +105,7 @@ export default function ListPackage() {
 
   const [showFilterColumn, setShowFilterColumn] = useState(false);
   const [filterColumn, setFilterColumn] = useState([
-    "code", "name", "fee", "description", "createDate", "updateDate", "status"
+    "code", "name", "fee", "createDate", "updateDate", "status"
   ]);
   const handleFilterColumn = (e) => {
     const value = e.target.value;

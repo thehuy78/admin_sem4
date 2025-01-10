@@ -1,85 +1,79 @@
 [
   {
-    "route":"/admin",
-    "icon":"fa-solid fa-house",
-    "name":"Dashboard",
-    "child":[
-
-    ]
+    "route": "/admin/dashboad",
+    "topic": "/admin/dashboad",
+    "icon": "fa-solid fa-house",
+    "name": "Dashboard",
+    "child": []
   },
   {
-    "route":"/admin/hospital",
-    "icon":"fa-solid fa-hospital",
-    "name":"Hospital",
-    "child":[
-     
-    ]
+    "route": "/admin/hospital",
+    "topic": "/admin/hospital",
+    "icon": "fa-solid fa-hospital",
+    "name": "Hospital",
+    "child": []
   },
   {
-    
-    "route":"",
-    "icon":"fa-solid fa-hand-holding-heart",
-    "name":"Service",
-    "child":[
-      
-    ]
+    "route": "/admin/services",
+    "topic": "/admin/services",
+    "icon": "fa-solid fa-hand-holding-heart",
+    "name": "Service",
+    "child": []
   },
   {
-    "route":"/admin/booking/list/all",
-    "icon":"fa-solid fa-calendar-days",
-    "name":"Booking",
-    "child":[
-      
-    ]
+    "route": "/admin/booking/list/all",
+    "topic": "/admin/booking",
+    "icon": "fa-solid fa-calendar-days",
+    "name": "Booking",
+    "child": []
   },
   {
-    "route":"/admin/notification",
-    "icon":"fa-solid fa-bell",
-    "name":"Notification",
-    "child":[
-
-    ]
+    "route": "/admin/blogs",
+    "topic": "/admin/blogs",
+    "icon": "fa-solid fa-newspaper",
+    "name": "Blogs",
+    "child": []
   },
   {
-    "route":"/admin/analysis",
-    "icon":"fa-solid fa-chart-line",
-    "name":"Analysis Report",
-    "child":[
-
-    ]
+    "route": "/admin/event",
+    "topic": "/admin/event",
+    "icon": "fa-solid fa-shield-virus",
+    "name": "Event",
+    "child": []
   },
   {
-    "route":"/admin/account/customer",
-    "icon":"fa-solid fa-user",
-    "name":"Account",
-    "child":[
-      { 
-        "route":"/admin/account/customer",
-        "icon":"",
-        "name":"Customer"
-      },
-      { 
-        "route":"/admin/account/admin",
-        "icon":"",
-        "name":"Admin"
-      }
-    ]
+    "route": "/admin/notification",
+    "topic": "/admin/notification",
+    "icon": "fa-solid fa-bell",
+    "name": "Notification",
+    "child": []
   },
   {
-   
-    "route":"/admin/transaction",
-    "icon":"fa-solid fa-comment-dollar",
-    "name":"Transaction",
-    "child":[
-
-    ]
+    "route": "/admin/analysis",
+    "topic": "/admin/analysis",
+    "icon": "fa-solid fa-chart-line",
+    "name": "Analysis Report",
+    "child": []
   },
   {
-    "route":"/admin/setting",
-    "icon":"fa-solid fa-gear",
-    "name":"Setting",
-    "child":[
-
-    ]
+    "route": "/admin/finance",
+    "topic": "/admin/finance",
+    "icon": "fa-solid fa-credit-card",
+    "name": "Accountant",
+    "child": []
+  },
+  {
+    "route": "/admin/account/customer",
+    "topic": "/admin/account",
+    "icon": "fa-solid fa-user",
+    "name": "Manage User",
+    "child": []
+  },
+  {
+    "route": "/admin/transaction",
+    "topic": "/admin/transaction",
+    "icon": "fa-solid fa-comment-dollar",
+    "name": "Transaction",
+    "child": []
   }
 ]

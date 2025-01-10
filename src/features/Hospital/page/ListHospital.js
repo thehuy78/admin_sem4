@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-
-import { headerjson, hospitaljson, districtsHCM, typehospital, status, ListHospitalPage } from "../data/DataListHospital"
+import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { headerjson, districtsHCM, typehospital, status, ListHospitalPage } from "../data/DataListHospital"
 
 import SearchInput from '../../../shared/component/InputFilter/SearchInput';
 import SelectInput from '../../../shared/component/InputFilter/SelectInput';
@@ -13,6 +13,8 @@ import FormatWorkday from '../../../shared/function/FomatWorkday';
 import { renderPagination } from '../../../shared/function/Pagination';
 import { useCookies } from 'react-cookie';
 import { createNotification } from '../../../shared/Config/Notifications';
+import GetImageFireBase from '../../../shared/function/GetImageFireBase';
+import DropdownLink from '../../../shared/component/codeBlock/DropdownLink';
 
 
 
@@ -79,20 +81,49 @@ export default function ListHospital() {
         setIsLoading(false)
       }, 400);
     }
-  }, [token, filter, page])
+  }, [token, filter, page, removeCookie])
 
 
   useEffect(() => {
-
     fetchdata();
-
-  }, [fetchdata, filter, page]);
+  }, [fetchdata]);
 
   const handlePage = (value) => {
     console.log(value);
     setPage((prev) => ({
       ...prev, page: value - 1
     }))
+  }
+
+
+  const ChangeStatusHospital = async (sid) => {
+    try {
+      setIsLoading(true)
+      var rs = await apiRequestAutherize("GET", `hospital/changestatus/${sid}`, token)
+      console.log(rs);
+      if (rs && rs.data && rs.data.status) {
+        switch (rs.data.status) {
+          case 200:
+            createNotification('success', 'Change Status success', 'Success')();
+            fetchdata()
+            break;
+          case 300:
+            createNotification('error', rs.data.message, 'Failed')();
+            break;
+          case 400:
+            createNotification('error', rs.data.data, 'Error')();
+            break;
+          default:
+            break;
+        }
+      }
+    } catch (error) {
+      createNotification('error', "error", 'Error')();
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 300);
+    }
   }
 
   const [timeoutId, setTimeoutId] = useState(null);
@@ -175,24 +206,28 @@ export default function ListHospital() {
 
                       />
                     </div>
+                    <div className='item'>
+                      <span>Type Hospital</span>
+                      <SelectInput key={1}
+                        defaultVl={typehospital.find(type => type.value === filter.type)}
+                        multi={false}
+                        options={typehospital}
+                        fnChangeOption={(selected) => {
+                          setFilter((prev) => ({ ...prev, type: selected.value }));
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               )
             }
 
           </div>
-          <SearchInput fnChangeCallback={handelChangeSearch} />
+
         </div>
         <div className='right'>
           <div>
-            <SelectInput key={1}
-              defaultVl={typehospital.find(type => type.value === filter.type)}
-              multi={false}
-              options={typehospital}
-              fnChangeOption={(selected) => {
-                setFilter((prev) => ({ ...prev, type: selected.value }));
-              }}
-            />
+            <SearchInput fnChangeCallback={handelChangeSearch} />
           </div>
           <div className="r_b_filter_column">
             <div
@@ -230,22 +265,24 @@ export default function ListHospital() {
         <div className="data_table">
           <table className="table_">
             <thead>
-              {header &&
-                header.length > 0 &&
-                header.map((item, index) => (
-                  <th
-                    className={item}
-                    key={index}
-                    style={{
-                      display: filterColumn.includes(item)
-                        ? "table-cell"
-                        : "none",
-                    }}
-                  >
-                    {item}
-                  </th>
-                ))}
-              <th>Action</th>
+              <tr>
+                {header &&
+                  header.length > 0 &&
+                  header.map((item, index) => (
+                    <th
+                      className={item}
+                      key={index}
+                      style={{
+                        display: filterColumn.includes(item)
+                          ? "table-cell"
+                          : "none",
+                      }}
+                    >
+                      {item}
+                    </th>
+                  ))}
+                <th>Action</th>
+              </tr>
             </thead>
             <tbody>
               {hospital && hospital.length > 0 ? (hospital.map((item) => (
@@ -268,7 +305,7 @@ export default function ListHospital() {
                     }}
                   >
                     <div style={{ width: "50px", margin: "auto" }}>
-                      <img style={{ width: "100%", aspectRatio: "1/1" }} alt='' src={item.logo} />
+                      <img style={{ width: "100%", aspectRatio: "1/1" }} alt='' src={GetImageFireBase(item.logo)} />
                     </div>
 
                   </td>
@@ -354,12 +391,35 @@ export default function ListHospital() {
                         : "none",
                     }}
                   >
-                    <p className={item.status && item.status.toLowerCase() === "active" ? "active" : "deactive"}>{item.status}</p>
+                    <p onClick={() => ChangeStatusHospital(item.id)} className={item.status && item.status.toLowerCase() === "active" ? "active" : "deactive"}>{item.status}</p>
                   </td>
                   <td>
-                    <Link to={`/admin/hospital/${item.code}/service`} className='link_tag'>
-                      <p className='view_'>View</p>
-                    </Link>
+                    <div className='b_action___'>
+                      <Link className='link_tag' to={`/admin/hospital/update/${item.id}`}>
+                        <i class="fa-solid fa-pen"
+                          data-tooltip-id="edit"
+                          data-tooltip-content="edit"
+                        ></i>
+                      </Link>
+                      <ReactTooltip id="edit" place="top" effect="solid" />
+                      {/* <Link to={`/admin/hospital/${item.code}/service`} className='link_tag'>
+                        <i class="fa-solid fa-wand-magic-sparkles"
+                          data-tooltip-id="view"
+                          data-tooltip-content="view"
+                        ></i>
+                      </Link> */}
+                      <DropdownLink
+                        data={
+                          [
+                            { name: "Department", route: `/admin/hospital/${item.code}/department` },
+                            { name: "Testing", route: `/admin/hospital/${item.code}/testing` },
+                            { name: "Package", route: `/admin/hospital/${item.code}/package` },
+                            { name: "Vaccine", route: `/admin/hospital/${item.code}/vaccine` }
+                          ]
+                        }
+                      />
+                      {/* <ReactTooltip id="view" place="top" effect="solid" /> */}
+                    </div>
                   </td>
                 </tr>
               ))) : (

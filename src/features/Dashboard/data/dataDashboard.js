@@ -32,6 +32,19 @@ export const CaculatorPer = (data, gender) => {
 
 };
 
+export const findItem = (data, name) => {
+  if (data && data.length > 0) {
+    var kq = data.find(op => op.name.toLowerCase() === name.toLowerCase())
+    if (kq) {
+      return kq.count
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}
+
 
 
 

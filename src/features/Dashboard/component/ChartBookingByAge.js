@@ -1,19 +1,19 @@
 import { Chart } from 'chart.js';
 import React, { useEffect, useRef } from 'react';
 
-export default function ChartBookingByAge({ labelData, data }) {
+export default function ChartBookingByAge({ labelData, data, bgColor }) {
   const chartRef = useRef(null); // Ref for the canvas element
   const chartInstanceRef = useRef(null); // Ref for the chart instance
 
   useEffect(() => {
-    if (data && data.length === 3) {
+    if (data && data.length > 0) {
       const chartData = {
         labels: labelData, // Labels for the legend
         datasets: [
           {
             label: 'Data Set', // General label for the dataset
             data: data,
-            backgroundColor: [
+            backgroundColor: bgColor || [
               'rgb(255, 99, 132)',
               'rgb(54, 162, 235)',
               'rgb(255, 205, 86)',
@@ -30,6 +30,7 @@ export default function ChartBookingByAge({ labelData, data }) {
           legend: {
             position: 'left',
             labels: {
+
               boxWidth: 10,
               usePointStyle: true,
               pointStyle: 'circle',
@@ -72,7 +73,7 @@ export default function ChartBookingByAge({ labelData, data }) {
         }
       };
     }
-  }, [data, labelData]);
+  }, [data, labelData, bgColor]);
 
   return <canvas style={{ height: "190px", width: "100%" }} ref={chartRef} id="chart_r_1_2" />; // Use chartRef for the canvas element
 }

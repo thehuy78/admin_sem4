@@ -138,7 +138,7 @@ text-transform: capitalize;
 }
 `;
 
-export const headerjson = ["code hospital", "name hospital", "code", "name", "fee", "description", "createDate", "updateDate", "last edit", "status"]
+export const headerjson = ["code hospital", "name hospital", "code", "name", "fee", "createDate", "updateDate", "last edit", "status"]
 
 
 export const fee = [

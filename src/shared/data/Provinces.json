@@ -1,8 +1,8 @@
 [
   {
     "name": "Thành phố Hà Nội",
-    "code": 1,
-    "codename": "thanh_pho_ha_noi",
+    "code": 63,
+    "codename": "Hà Nội",
     "division_type": "thành phố trung ương",
     "phone_code": 24,
     "districts": [
@@ -4333,8 +4333,8 @@
   },
   {
     "name": "Tỉnh Hà Giang",
-    "code": 2,
-    "codename": "tinh_ha_giang",
+    "code": 62,
+    "codename": "Hà Giang",
     "division_type": "tỉnh",
     "phone_code": 219,
     "districts": [
@@ -5792,8 +5792,8 @@
   },
   {
     "name": "Tỉnh Cao Bằng",
-    "code": 4,
-    "codename": "tinh_cao_bang",
+    "code": 61,
+    "codename": "Cao Bằng",
     "division_type": "tỉnh",
     "phone_code": 206,
     "districts": [
@@ -7018,8 +7018,8 @@
   },
   {
     "name": "Tỉnh Bắc Kạn",
-    "code": 6,
-    "codename": "tinh_bac_kan",
+    "code": 60,
+    "codename": "Bắc Kạn",
     "division_type": "tỉnh",
     "phone_code": 209,
     "districts": [
@@ -7855,8 +7855,8 @@
   },
   {
     "name": "Tỉnh Tuyên Quang",
-    "code": 8,
-    "codename": "tinh_tuyen_quang",
+    "code": 59,
+    "codename": "Tuyên Quang",
     "division_type": "tỉnh",
     "phone_code": 207,
     "districts": [
@@ -8893,8 +8893,8 @@
   },
   {
     "name": "Tỉnh Lào Cai",
-    "code": 10,
-    "codename": "tinh_lao_cai",
+    "code": 58,
+    "codename": "Lào Cai",
     "division_type": "tỉnh",
     "phone_code": 214,
     "districts": [
@@ -10047,8 +10047,8 @@
   },
   {
     "name": "Tỉnh Điện Biên",
-    "code": 11,
-    "codename": "tinh_dien_bien",
+    "code": 57,
+    "codename": "Điện Biên",
     "division_type": "tỉnh",
     "phone_code": 215,
     "districts": [
@@ -11049,8 +11049,8 @@
   },
   {
     "name": "Tỉnh Lai Châu",
-    "code": 12,
-    "codename": "tinh_lai_chau",
+    "code": 56,
+    "codename": "Lai Châu",
     "division_type": "tỉnh",
     "phone_code": 213,
     "districts": [
@@ -11872,8 +11872,8 @@
   },
   {
     "name": "Tỉnh Sơn La",
-    "code": 14,
-    "codename": "tinh_son_la",
+    "code": 55,
+    "codename": "Sơn La",
     "division_type": "tỉnh",
     "phone_code": 212,
     "districts": [
@@ -13417,8 +13417,8 @@
   },
   {
     "name": "Tỉnh Yên Bái",
-    "code": 15,
-    "codename": "tinh_yen_bai",
+    "code": 54,
+    "codename": "Yên Bái",
     "division_type": "tỉnh",
     "phone_code": 216,
     "districts": [
@@ -14718,8 +14718,8 @@
   },
   {
     "name": "Tỉnh Hoà Bình",
-    "code": 17,
-    "codename": "tinh_hoa_binh",
+    "code": 53,
+    "codename": "Hòa Bình",
     "division_type": "tỉnh",
     "phone_code": 218,
     "districts": [
@@ -15874,8 +15874,8 @@
   },
   {
     "name": "Tỉnh Thái Nguyên",
-    "code": 19,
-    "codename": "tinh_thai_nguyen",
+    "code": 52,
+    "codename": "Thái Nguyên",
     "division_type": "tỉnh",
     "phone_code": 208,
     "districts": [
@@ -17203,8 +17203,8 @@
   },
   {
     "name": "Tỉnh Lạng Sơn",
-    "code": 20,
-    "codename": "tinh_lang_son",
+    "code": 51,
+    "codename": "Lạng Sơn",
     "division_type": "tỉnh",
     "phone_code": 205,
     "districts": [
@@ -18711,8 +18711,8 @@
   },
   {
     "name": "Tỉnh Quảng Ninh",
-    "code": 22,
-    "codename": "tinh_quang_ninh",
+    "code": 50,
+    "codename": "Quảng Ninh",
     "division_type": "tỉnh",
     "phone_code": 203,
     "districts": [
@@ -20076,8 +20076,8 @@
   },
   {
     "name": "Tỉnh Bắc Giang",
-    "code": 24,
-    "codename": "tinh_bac_giang",
+    "code": 49,
+    "codename": "Bắc Giang",
     "division_type": "tỉnh",
     "phone_code": 204,
     "districts": [
@@ -21638,8 +21638,8 @@
   },
   {
     "name": "Tỉnh Phú Thọ",
-    "code": 25,
-    "codename": "tinh_phu_tho",
+    "code": 48,
+    "codename": "Phú Thọ",
     "division_type": "tỉnh",
     "phone_code": 210,
     "districts": [
@@ -23339,8 +23339,8 @@
   },
   {
     "name": "Tỉnh Vĩnh Phúc",
-    "code": 26,
-    "codename": "tinh_vinh_phuc",
+    "code": 47,
+    "codename": "Vĩnh Phúc",
     "division_type": "tỉnh",
     "phone_code": 211,
     "districts": [
@@ -24381,8 +24381,8 @@
   },
   {
     "name": "Tỉnh Bắc Ninh",
-    "code": 27,
-    "codename": "tinh_bac_ninh",
+    "code": 46,
+    "codename": "Bắc Ninh",
     "division_type": "tỉnh",
     "phone_code": 222,
     "districts": [
@@ -25344,8 +25344,8 @@
   },
   {
     "name": "Tỉnh Hải Dương",
-    "code": 30,
-    "codename": "tinh_hai_duong",
+    "code": 45,
+    "codename": "Hải Dương",
     "division_type": "tỉnh",
     "phone_code": 220,
     "districts": [
@@ -27106,8 +27106,8 @@
   },
   {
     "name": "Thành phố Hải Phòng",
-    "code": 31,
-    "codename": "thanh_pho_hai_phong",
+    "code": 44,
+    "codename": "Hải Phòng",
     "division_type": "thành phố trung ương",
     "phone_code": 225,
     "districts": [
@@ -28768,8 +28768,8 @@
   },
   {
     "name": "Tỉnh Hưng Yên",
-    "code": 33,
-    "codename": "tinh_hung_yen",
+    "code": 43,
+    "codename": "Hưng Yên",
     "division_type": "tỉnh",
     "phone_code": 221,
     "districts": [
@@ -29994,8 +29994,8 @@
   },
   {
     "name": "Tỉnh Thái Bình",
-    "code": 34,
-    "codename": "tinh_thai_binh",
+    "code": 42,
+    "codename": "Thái Bình",
     "division_type": "tỉnh",
     "phone_code": 227,
     "districts": [
@@ -31895,8 +31895,8 @@
   },
   {
     "name": "Tỉnh Hà Nam",
-    "code": 35,
-    "codename": "tinh_ha_nam",
+    "code": 41,
+    "codename": "Hà Nam",
     "division_type": "tỉnh",
     "phone_code": 226,
     "districts": [
@@ -32721,8 +32721,8 @@
   },
   {
     "name": "Tỉnh Nam Định",
-    "code": 36,
-    "codename": "tinh_nam_dinh",
+    "code": 40,
+    "codename": "Nam Định",
     "division_type": "tỉnh",
     "phone_code": 228,
     "districts": [
@@ -34402,8 +34402,8 @@
   },
   {
     "name": "Tỉnh Ninh Bình",
-    "code": 37,
-    "codename": "tinh_ninh_binh",
+    "code": 39,
+    "codename": "Ninh Bình",
     "division_type": "tỉnh",
     "phone_code": 229,
     "districts": [
@@ -35485,7 +35485,7 @@
   {
     "name": "Tỉnh Thanh Hóa",
     "code": 38,
-    "codename": "tinh_thanh_hoa",
+    "codename": "Thanh Hóa",
     "division_type": "tỉnh",
     "phone_code": 237,
     "districts": [
@@ -39649,8 +39649,8 @@
   },
   {
     "name": "Tỉnh Nghệ An",
-    "code": 40,
-    "codename": "tinh_nghe_an",
+    "code": 37,
+    "codename": "Nghệ An",
     "division_type": "tỉnh",
     "phone_code": 238,
     "districts": [
@@ -43067,8 +43067,8 @@
   },
   {
     "name": "Tỉnh Hà Tĩnh",
-    "code": 42,
-    "codename": "tinh_ha_tinh",
+    "code": 36,
+    "codename": "Hà Tĩnh",
     "division_type": "tỉnh",
     "phone_code": 239,
     "districts": [
@@ -44705,8 +44705,8 @@
   },
   {
     "name": "Tỉnh Quảng Bình",
-    "code": 44,
-    "codename": "tinh_quang_binh",
+    "code": 35,
+    "codename": "Quảng Bình",
     "division_type": "tỉnh",
     "phone_code": 232,
     "districts": [
@@ -45843,8 +45843,8 @@
   },
   {
     "name": "Tỉnh Quảng Trị",
-    "code": 45,
-    "codename": "tinh_quang_tri",
+    "code": 34,
+    "codename": "Quảng Trị",
     "division_type": "tỉnh",
     "phone_code": 233,
     "districts": [
@@ -46816,8 +46816,8 @@
   },
   {
     "name": "Tỉnh Thừa Thiên Huế",
-    "code": 46,
-    "codename": "tinh_thua_thien_hue",
+    "code": 33,
+    "codename": "Thừa Thiên - Huế",
     "division_type": "tỉnh",
     "phone_code": 234,
     "districts": [
@@ -47893,8 +47893,8 @@
   },
   {
     "name": "Thành phố Đà Nẵng",
-    "code": 48,
-    "codename": "thanh_pho_da_nang",
+    "code": 32,
+    "codename": "Đà Nẵng",
     "division_type": "thành phố trung ương",
     "phone_code": 236,
     "districts": [
@@ -48365,8 +48365,8 @@
   },
   {
     "name": "Tỉnh Quảng Nam",
-    "code": 49,
-    "codename": "tinh_quang_nam",
+    "code": 31,
+    "codename": "Quảng Nam",
     "division_type": "tỉnh",
     "phone_code": 235,
     "districts": [
@@ -50223,8 +50223,8 @@
   },
   {
     "name": "Tỉnh Quảng Ngãi",
-    "code": 51,
-    "codename": "tinh_quang_ngai",
+    "code": 30,
+    "codename": "Quảng Ngãi",
     "division_type": "tỉnh",
     "phone_code": 255,
     "districts": [
@@ -51559,8 +51559,8 @@
   },
   {
     "name": "Tỉnh Bình Định",
-    "code": 52,
-    "codename": "tinh_binh_dinh",
+    "code": 29,
+    "codename": "Bình Định",
     "division_type": "tỉnh",
     "phone_code": 256,
     "districts": [
@@ -52780,8 +52780,8 @@
   },
   {
     "name": "Tỉnh Phú Yên",
-    "code": 54,
-    "codename": "tinh_phu_yen",
+    "code": 28,
+    "codename": "Phú Yên",
     "division_type": "tỉnh",
     "phone_code": 257,
     "districts": [
@@ -53640,8 +53640,8 @@
   },
   {
     "name": "Tỉnh Khánh Hòa",
-    "code": 56,
-    "codename": "tinh_khanh_hoa",
+    "code": 27,
+    "codename": "Khánh Hòa",
     "division_type": "tỉnh",
     "phone_code": 258,
     "districts": [
@@ -54703,8 +54703,8 @@
   },
   {
     "name": "Tỉnh Ninh Thuận",
-    "code": 58,
-    "codename": "tinh_ninh_thuan",
+    "code": 26,
+    "codename": "Ninh Thuận",
     "division_type": "tỉnh",
     "phone_code": 259,
     "districts": [
@@ -55230,8 +55230,8 @@
   },
   {
     "name": "Tỉnh Bình Thuận",
-    "code": 60,
-    "codename": "tinh_binh_thuan",
+    "code": 25,
+    "codename": "Bình Thuận",
     "division_type": "tỉnh",
     "phone_code": 252,
     "districts": [
@@ -56197,8 +56197,8 @@
   },
   {
     "name": "Tỉnh Kon Tum",
-    "code": 62,
-    "codename": "tinh_kon_tum",
+    "code": 24,
+    "codename": "Kon Tum",
     "division_type": "tỉnh",
     "phone_code": 260,
     "districts": [
@@ -57010,8 +57010,8 @@
   },
   {
     "name": "Tỉnh Gia Lai",
-    "code": 64,
-    "codename": "tinh_gia_lai",
+    "code": 23,
+    "codename": "Gia Lai",
     "division_type": "tỉnh",
     "phone_code": 269,
     "districts": [
@@ -58712,8 +58712,8 @@
   },
   {
     "name": "Tỉnh Đắk Lắk",
-    "code": 66,
-    "codename": "tinh_dak_lak",
+    "code": 22,
+    "codename": "Đắk Lắk",
     "division_type": "tỉnh",
     "phone_code": 262,
     "districts": [
@@ -60144,8 +60144,8 @@
   },
   {
     "name": "Tỉnh Đắk Nông",
-    "code": 67,
-    "codename": "tinh_dak_nong",
+    "code": 21,
+    "codename": "Đăk Nông",
     "division_type": "tỉnh",
     "phone_code": 261,
     "districts": [
@@ -60722,8 +60722,8 @@
   },
   {
     "name": "Tỉnh Lâm Đồng",
-    "code": 68,
-    "codename": "tinh_lam_dong",
+    "code": 20,
+    "codename": "Lâm Đồng",
     "division_type": "tỉnh",
     "phone_code": 263,
     "districts": [
@@ -61833,8 +61833,8 @@
   },
   {
     "name": "Tỉnh Bình Phước",
-    "code": 70,
-    "codename": "tinh_binh_phuoc",
+    "code": 19,
+    "codename": "Bình Phước",
     "division_type": "tỉnh",
     "phone_code": 271,
     "districts": [
@@ -62718,8 +62718,8 @@
   },
   {
     "name": "Tỉnh Tây Ninh",
-    "code": 72,
-    "codename": "tinh_tay_ninh",
+    "code": 18,
+    "codename": "Tây Ninh",
     "division_type": "tỉnh",
     "phone_code": 276,
     "districts": [
@@ -63466,8 +63466,8 @@
   },
   {
     "name": "Tỉnh Bình Dương",
-    "code": 74,
-    "codename": "tinh_binh_duong",
+    "code": 17,
+    "codename": "Bình Dương",
     "division_type": "tỉnh",
     "phone_code": 274,
     "districts": [
@@ -64193,8 +64193,8 @@
   },
   {
     "name": "Tỉnh Đồng Nai",
-    "code": 75,
-    "codename": "tinh_dong_nai",
+    "code": 16,
+    "codename": "Đồng Nai",
     "division_type": "tỉnh",
     "phone_code": 251,
     "districts": [
@@ -65491,8 +65491,8 @@
   },
   {
     "name": "Tỉnh Bà Rịa - Vũng Tàu",
-    "code": 77,
-    "codename": "tinh_ba_ria_vung_tau",
+    "code": 15,
+    "codename": "Bà Rịa - Vũng Tàu",
     "division_type": "tỉnh",
     "phone_code": 254,
     "districts": [
@@ -66145,8 +66145,8 @@
   },
   {
     "name": "Thành phố Hồ Chí Minh",
-    "code": 79,
-    "codename": "thanh_pho_ho_chi_minh",
+    "code": 14,
+    "codename": "Hồ Chí Minh city",
     "division_type": "thành phố trung ương",
     "phone_code": 28,
     "districts": [
@@ -68536,8 +68536,8 @@
   },
   {
     "name": "Tỉnh Long An",
-    "code": 80,
-    "codename": "tinh_long_an",
+    "code": 13,
+    "codename": "Long An",
     "division_type": "tỉnh",
     "phone_code": 272,
     "districts": [
@@ -69996,8 +69996,8 @@
   },
   {
     "name": "Tỉnh Tiền Giang",
-    "code": 82,
-    "codename": "tinh_tien_giang",
+    "code": 12,
+    "codename": "Tiền Giang",
     "division_type": "tỉnh",
     "phone_code": 273,
     "districts": [
@@ -71308,8 +71308,8 @@
   },
   {
     "name": "Tỉnh Bến Tre",
-    "code": 83,
-    "codename": "tinh_ben_tre",
+    "code": 11,
+    "codename": "Bến Tre",
     "division_type": "tỉnh",
     "phone_code": 275,
     "districts": [
@@ -72497,8 +72497,8 @@
   },
   {
     "name": "Tỉnh Trà Vinh",
-    "code": 84,
-    "codename": "tinh_tra_vinh",
+    "code": 10,
+    "codename": "Trà Vinh",
     "division_type": "tỉnh",
     "phone_code": 294,
     "districts": [
@@ -73329,8 +73329,8 @@
   },
   {
     "name": "Tỉnh Vĩnh Long",
-    "code": 86,
-    "codename": "tinh_vinh_long",
+    "code": 9,
+    "codename": "Vĩnh Long",
     "division_type": "tỉnh",
     "phone_code": 270,
     "districts": [
@@ -74159,8 +74159,8 @@
   },
   {
     "name": "Tỉnh Đồng Tháp",
-    "code": 87,
-    "codename": "tinh_dong_thap",
+    "code": 8,
+    "codename": "Đồng Tháp",
     "division_type": "tỉnh",
     "phone_code": 277,
     "districts": [
@@ -75277,8 +75277,8 @@
   },
   {
     "name": "Tỉnh An Giang",
-    "code": 89,
-    "codename": "tinh_an_giang",
+    "code": 7,
+    "codename": "An Giang",
     "division_type": "tỉnh",
     "phone_code": 296,
     "districts": [
@@ -76477,8 +76477,8 @@
   },
   {
     "name": "Tỉnh Kiên Giang",
-    "code": 91,
-    "codename": "tinh_kien_giang",
+    "code": 6,
+    "codename": "Kiên Giang",
     "division_type": "tỉnh",
     "phone_code": 297,
     "districts": [
@@ -77629,8 +77629,8 @@
   },
   {
     "name": "Thành phố Cần Thơ",
-    "code": 92,
-    "codename": "thanh_pho_can_tho",
+    "code": 5,
+    "codename": "Cần Thơ",
     "division_type": "thành phố trung ương",
     "phone_code": 292,
     "districts": [
@@ -78300,8 +78300,8 @@
   },
   {
     "name": "Tỉnh Hậu Giang",
-    "code": 93,
-    "codename": "tinh_hau_giang",
+    "code": 4,
+    "codename": "Hậu Giang",
     "division_type": "tỉnh",
     "phone_code": 293,
     "districts": [
@@ -78906,8 +78906,8 @@
   },
   {
     "name": "Tỉnh Sóc Trăng",
-    "code": 94,
-    "codename": "tinh_soc_trang",
+    "code": 3,
+    "codename": "Sóc Trăng",
     "division_type": "tỉnh",
     "phone_code": 299,
     "districts": [
@@ -79777,8 +79777,8 @@
   },
   {
     "name": "Tỉnh Bạc Liêu",
-    "code": 95,
-    "codename": "tinh_bac_lieu",
+    "code": 2,
+    "codename": "Bạc Liêu",
     "division_type": "tỉnh",
     "phone_code": 291,
     "districts": [
@@ -80297,8 +80297,8 @@
   },
   {
     "name": "Tỉnh Cà Mau",
-    "code": 96,
-    "codename": "tinh_ca_mau",
+    "code": 1,
+    "codename": "Cà Mau",
     "division_type": "tỉnh",
     "phone_code": 290,
     "districts": [

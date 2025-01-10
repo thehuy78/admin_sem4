@@ -3,6 +3,7 @@ import Cropper from 'react-easy-crop';
 import { useDropzone } from 'react-dropzone';
 import styled, { css } from 'styled-components';
 import getCroppedImg from '../../function/cropImageHelper'; // Thêm file helper để xử lý crop ảnh
+import GetImageFireBase from '../../function/GetImageFireBase';
 
 const FullScreenCropContainer = styled.div`
   position: fixed;
@@ -131,16 +132,24 @@ const Error = styled.span`
 
 
 
-export default function InputImageCrop({ Textlabel, isRequire, err, fnChange, aspectWH }) {
+export default function InputImageCrop({ defaultImg, Textlabel, isRequire, err, fnChange, aspectWH }) {
+  console.log(defaultImg);
   const [imageSrc, setImageSrc] = useState(null);
-  const [croppedImage, setCroppedImage] = useState(null);
+  var img = defaultImg ? GetImageFireBase(defaultImg) : null
+
+  const [croppedImage, setCroppedImage] = useState(img);
+
+  useEffect(() => {
+    var img = defaultImg ? GetImageFireBase(defaultImg) : null
+    setCroppedImage(img)
+  }, [defaultImg]);
   const [croppedFile, setCroppedFile] = useState(null); // State để lưu file
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [cropping, setCropping] = useState(false);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
-  const [effect, setEffect] = useState(false)
+  const [effect, setEffect] = useState(true)
   const {
     getRootProps,
     getInputProps,
@@ -192,9 +201,10 @@ export default function InputImageCrop({ Textlabel, isRequire, err, fnChange, as
   };
   useEffect(() => {
     if (effect) {
-      fnChange(croppedFile)
+
+      fnChange(croppedFile, croppedImage ? defaultImg : null)
     }
-  }, [effect, croppedFile, fnChange]);
+  }, [effect, croppedFile, croppedImage, defaultImg, fnChange]);
 
   return (
     <div style={{ paddingBottom: "1.5rem" }}>

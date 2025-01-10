@@ -104,7 +104,7 @@ export default function ListTesting() {
 
   const [showFilterColumn, setShowFilterColumn] = useState(false);
   const [filterColumn, setFilterColumn] = useState([
-    "code", "name", "fee", "floor", "zone", "description", "createDate", "status"
+    "code", "name", "fee", "floor", "zone", "createDate", "status"
   ]);
   const handleFilterColumn = (e) => {
     const value = e.target.value;

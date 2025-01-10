@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const headerjson = [
   "code",
   "avatar",
@@ -26,8 +25,7 @@ export const timeWork = [
   { value: "", label: "All" },
   { value: "Cả Ngày", label: "Cả Ngày" },
   { value: "Sáng", label: "Sáng" },
-  { value: "Chiều", label: "Chiều" }
-
+  { value: "Chiều", label: "Chiều" },
 ];
 
 export const gender = [
@@ -48,7 +46,7 @@ export const ListDoctorPage = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem 0;
+  padding:0 0 1rem 0;
   .section_filter {
     width: 100%;
     display: flex;
@@ -117,7 +115,7 @@ export const ListDoctorPage = styled.div`
     .data_table {
       overflow-x: auto;
       scrollbar-width: thin;
-min-height:28rem;
+      min-height: 28rem;
       .table_ {
         border-collapse: collapse;
         width: 100%;
@@ -139,7 +137,7 @@ min-height:28rem;
             border-bottom: 0.05rem solid var(--shadow-black);
 
             td {
-            height:80px;
+              height: 80px;
               padding: 0 0.5rem;
               text-align: center;
               font-size: var(--fz_small);

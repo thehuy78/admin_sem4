@@ -39,7 +39,7 @@ const BoxInputWrapper = styled.div`
     font-size: var(--fz_smallmax);
   }
 `;
-export default function SelectOption({ nameLabel, nameValue, Textlabel, Textplacehoder, isRequire, err, defaultVl, options, fnChangeOption, multi }) {
+export default function SelectOption({ value, nameLabel, nameValue, Textlabel, Textplacehoder, isRequire, err, defaultVl, options, fnChangeOption, multi }) {
 
   return (
     <BoxInput>
@@ -47,7 +47,8 @@ export default function SelectOption({ nameLabel, nameValue, Textlabel, Textplac
       <BoxInputWrapper>
         <Select
           placeholder={Textplacehoder}
-          value={defaultVl && defaultVl}
+          defaultValue={defaultVl && defaultVl}
+          value={value && value}
           onChange={fnChangeOption}
           options={options}
           isMulti={multi}

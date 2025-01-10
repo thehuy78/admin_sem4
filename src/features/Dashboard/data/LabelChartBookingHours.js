@@ -3,5 +3,5 @@ export const labelData = [
   '8H', '9H', '10H', '11H', '12H', '13H', '14H', '15H',
   '16H', '17H', '18H', '19H', '20H', '21H', '22H', '23H',
 ]
-export const labelSet = ["Today", "'Yesterday'"]
+export const labelSet = ["Today", "Yesterday"]
 export const labelValue = ['Hours of the Day', 'Booking']

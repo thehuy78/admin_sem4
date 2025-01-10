@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Cropper from 'react-easy-crop';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import getCroppedImg from '../../function/cropImageHelper'; // Thêm file helper để xử lý crop ảnh
+import GetImageFireBase from '../../function/GetImageFireBase';
 
-
+import swal from 'sweetalert';
 
 const GridImage = styled.div`
  width: 100%;
@@ -151,11 +152,24 @@ const Error = styled.span`
 
 
 
-export default function MultiInputImageCrop({ GirdColumn, Textlabel, isRequire, err, fnChange, aspectWH }) {
-  const [imageQueue, setImageQueue] = useState([]); // Hàng đợi ảnh cần crop
-  const [imageSrc, setImageSrc] = useState(null); // Ảnh hiện tại đang crop
-  const [croppedImages, setCroppedImages] = useState([]); // Danh sách ảnh đã cắt
-  const [croppedFiles, setCroppedFiles] = useState([]); // Danh sách file đã cắt
+export default function MultiInputImageCrop({
+  defaultImage,
+  GirdColumn,
+  Textlabel,
+  isRequire,
+  err,
+  fnChange,
+  aspectWH
+}) {
+  const MAX_IMAGES = 5;
+  var defaultIMG = defaultImage?.split("; ");
+  defaultIMG?.pop();
+
+  const [imgDefault, setImgDefault] = useState(defaultIMG || []);
+  const [imageQueue, setImageQueue] = useState([]); // Queue for images to crop
+  const [imageSrc, setImageSrc] = useState(null); // Current image being cropped
+  const [croppedImages, setCroppedImages] = useState([]); // List of cropped images
+  const [croppedFiles, setCroppedFiles] = useState([]); // List of cropped files
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [cropping, setCropping] = useState(false);
@@ -164,22 +178,30 @@ export default function MultiInputImageCrop({ GirdColumn, Textlabel, isRequire, 
   const { getRootProps, getInputProps } = useDropzone({
     accept: { 'image/*': [] },
     onDrop: (acceptedFiles) => {
-      const newImages = acceptedFiles.map(file => {
+      // Count total images
+      const totalImages = imgDefault.length + croppedImages.length + acceptedFiles.length;
+      if (totalImages > MAX_IMAGES) {
+        // alert(`You can only upload up to ${MAX_IMAGES} images.`);
+        swal("Accept Image", `You can only upload up to ${MAX_IMAGES} images`, "error");
+        return;
+      }
+
+      const newImages = acceptedFiles.map((file) => {
         const reader = new FileReader();
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           reader.onload = () => resolve(reader.result);
           reader.readAsDataURL(file);
         });
       });
 
-      Promise.all(newImages).then(images => {
+      Promise.all(newImages).then((images) => {
         setImageQueue((prevQueue) => [...prevQueue, ...images]);
         if (!cropping) {
           setImageSrc(images[0]);
           setCropping(true);
         }
       });
-    }
+    },
   });
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
@@ -196,7 +218,7 @@ export default function MultiInputImageCrop({ GirdColumn, Textlabel, isRequire, 
       setCroppedImages((prev) => [...prev, croppedImg]);
       setCroppedFiles((prev) => [...prev, file]);
 
-      fnChange([...croppedFiles, file]);
+      fnChange([...croppedFiles, file], imgDefault);
 
       const remainingQueue = imageQueue.slice(1);
       setImageQueue(remainingQueue);
@@ -217,27 +239,49 @@ export default function MultiInputImageCrop({ GirdColumn, Textlabel, isRequire, 
     const updatedFiles = croppedFiles.filter((_, i) => i !== index);
     setCroppedImages(updatedImages);
     setCroppedFiles(updatedFiles);
-    fnChange(updatedFiles);
+    fnChange(updatedFiles, imgDefault);
+  };
+
+  const handleRemoveDefaultImage = (index) => {
+    const updatedImages = imgDefault.filter((_, i) => i !== index);
+    setImgDefault(updatedImages);
+    fnChange(croppedFiles, updatedImages);
   };
 
   return (
-    <div style={{ width: "100%", paddingBottom: "1.5rem" }}>
-      <Label>{Textlabel}{isRequire && (<span>*</span>)}</Label>
-      <GridImage style={{ gridTemplateColumns: `repeat(${GirdColumn},1fr)` }}>
-
-        {!cropping && (
+    <div style={{ width: '100%', paddingBottom: '1.5rem' }}>
+      <Label>
+        {Textlabel}
+        {isRequire && <span>*</span>}
+      </Label>
+      <GridImage style={{ gridTemplateColumns: `repeat(${GirdColumn}, 1fr)` }}>
+        {!cropping && !(imgDefault.length + croppedImages.length === MAX_IMAGES) && (
           <Container {...getRootProps()}>
             <input {...getInputProps()} />
             <p>+</p>
           </Container>
         )}
+        {imgDefault &&
+          imgDefault.map((image, index) => (
+            <ImageWrapper key={index}>
+              <ImagePreview
+                src={GetImageFireBase(image)}
+                style={{ aspectRatio: aspectWH }}
+                alt="Preview"
+              />
+              <CloseButton onClick={() => handleRemoveDefaultImage(index)}>
+                <i className="fa-regular fa-trash-can"></i>
+              </CloseButton>
+            </ImageWrapper>
+          ))}
         {croppedImages.map((image, index) => (
           <ImageWrapper key={index}>
             <ImagePreview src={image} style={{ aspectRatio: aspectWH }} alt="Preview" />
-            <CloseButton onClick={() => handleRemoveImage(index)}><i className="fa-regular fa-trash-can"></i></CloseButton>
+            <CloseButton onClick={() => handleRemoveImage(index)}>
+              <i className="fa-regular fa-trash-can"></i>
+            </CloseButton>
           </ImageWrapper>
         ))}
-
       </GridImage>
       {cropping && (
         <FullScreenCropContainer>

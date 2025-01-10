@@ -10,7 +10,8 @@ import FormatWorkday from '../../../shared/function/FomatWorkday';
 import { createNotification } from '../../../shared/Config/Notifications';
 import { useCookies } from 'react-cookie';
 import LoadingPage from '../../../shared/Config/LoadingPage';
-
+import GetImageFireBase from '../../../shared/function/GetImageFireBase';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 export default function ListDoctor() {
   //datafetch
   const [doctor, setDoctor] = useState();
@@ -296,7 +297,7 @@ export default function ListDoctor() {
                       }}
                     >
                       <div style={{ width: "60px", margin: "auto" }}>
-                        <img style={{ width: "100%", aspectRatio: "1/1", borderRadius: "50%" }} alt='' src={item.avatar} />
+                        <img style={{ width: "100%", aspectRatio: "1/1", borderRadius: "50%" }} alt='' src={GetImageFireBase(item.avatar)} />
                       </div>
 
                     </td>
@@ -325,7 +326,24 @@ export default function ListDoctor() {
                           : "none",
                       }}
                     >
-                      {item.timeWork}
+                      <div>
+                        <span
+                          data-tooltip-id="tooltip" // Tạo ID cho tooltip
+                          data-tooltip-content={item.timeWork} // Nội dung của tooltip
+                          style={{
+                            maxWidth: '200px', // Chiều rộng tối đa cho text
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            display: 'inline-block',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          {item.timeWork}
+                        </span>
+                        <ReactTooltip id="tooltip" place="top" style={{ zIndex: 999 }} effect="solid" />
+                      </div>
+
                     </td>
                     <td
                       style={{

@@ -1,12 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Chart } from 'chart.js';
 
 export default function ChartBookingByDayOfWeek({ labelData, data, labelSet, labelValue }) {
   const chartRef = useRef(null); // Ref for the canvas element
   const chartInstanceRef = useRef(null); // Ref for the chart instance
-  console.log(labelData);
-  console.log(data[0]);
-  console.log(data[1]);
+  console.log(labelSet);
+  const [labelSetC, setLabelSetC] = useState(labelSet)
+  useEffect(() => {
+    setLabelSetC(labelSet)
+  }, [labelSet]);
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
 
@@ -20,17 +22,17 @@ export default function ChartBookingByDayOfWeek({ labelData, data, labelSet, lab
       labels: labelData,
       datasets: [
         {
-          label: labelSet[1],
+          label: labelSetC[1],
           data: data[1],
-          backgroundColor: 'var(--cl_1)', // Color for the last year
-          borderColor: 'rgba(106, 106, 106, 1)',
+          backgroundColor: 'gray', // Color for the last year
+          borderColor: 'gray',
           borderWidth: 1,
         },
         {
-          label: labelSet[0],
+          label: labelSetC[0],
           data: data[0],
-          backgroundColor: 'rgb(232, 242, 247)', // Color for this year
-          borderColor: 'rgba(232, 242, 247, 1)',
+          backgroundColor: 'rgba(54, 162, 235, 0.7)', // Color for this year
+          borderColor: 'rgba(54, 162, 235, 0.7)',
           borderWidth: 1,
         },
       ],
@@ -85,7 +87,7 @@ export default function ChartBookingByDayOfWeek({ labelData, data, labelSet, lab
         chartInstanceRef.current.destroy();
       }
     };
-  }, [labelData, data, labelSet, labelValue]);
+  }, [labelData, data, labelSetC, labelValue]);
 
   return <canvas ref={chartRef} id="chart_r_3" />; // Use ref for the canvas element
 }

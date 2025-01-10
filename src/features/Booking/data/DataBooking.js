@@ -10,7 +10,7 @@ export const ListBookingPage = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem 0;
+  padding:0 0 1rem 0;
 
   .section_filter {
     width: 100%;
@@ -165,15 +165,15 @@ export const theadTopic = [
 export const BookingDetailPage = styled.div`
 
 
-  padding: 1rem 2rem;
+  padding:0 2rem 1rem 2rem;
   .details {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 1rem;
     padding-top: 0.5rem;
-
+background-color: var(--white);
     .left {
-      background-color: white;
+      background-color: var(--cl_1);
       width: 100%;
       min-height: 10rem;
       padding: 1rem;
@@ -286,7 +286,7 @@ export const BookingDetailPage = styled.div`
       }
     }
     .right {
-      background-color: white;
+      background-color: var(--cl_1);
       width: 100%;
       min-height: 10rem;
       padding: 1rem;

@@ -1,22 +1,37 @@
 import React, { useCallback, useEffect, useState } from "react";
 import LoadingPage from "../../../shared/Config/LoadingPage";
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 import SelectInput from "../../../shared/component/InputFilter/SelectInput";
 import SearchInput from "../../../shared/component/InputFilter/SearchInput";
 import { status, ListAccountPage, theadTopicAd } from "../data/DataAccount";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useAdminContext } from "../../../shared/hook/ContextToken";
 import { apiRequestAutherize } from "../../../shared/hook/Api/ApiAuther";
 import { createNotification } from "../../../shared/Config/Notifications";
 import { renderPagination } from "../../../shared/function/Pagination";
 import { formatDate } from "../../../shared/function/FomatDate";
-
+import { NotificationContainer } from "react-notifications";
+import SendMail from "../../../shared/component/Mocup/SendMail";
+import { useLocation } from 'react-router-dom';
+import GetImageFireBase from "../../../shared/function/GetImageFireBase";
 export default function ListAccountAdmin() {
   const [filter, setFilter] = useState({
     status: "",
     search: ""
   });
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(location.pathname)
 
+  const selectPage = [
+    {
+      value: '/admin/account/admin', label: "Account Admin"
+    },
+    {
+      value: '/admin/account/customer', label: "Account Customer"
+    }
+  ]
 
   const [isLoading, setIsLoading] = useState(false);
   const [showFilterColumn, setShowFilterColumn] = useState(false);
@@ -28,7 +43,6 @@ export default function ListAccountAdmin() {
     "lastName",
     "role",
     "verify",
-
     "status",
   ]);
   const handleFilterColumn = (e) => {
@@ -95,6 +109,36 @@ export default function ListAccountAdmin() {
     }
   }, [token, filter, page, removeCookie])
 
+  const ChangeStatusUser = async (sid) => {
+    try {
+      setIsLoading(true)
+      var rs = await apiRequestAutherize("GET", `auth/changestatus/${sid}`, token)
+      console.log(rs);
+      if (rs && rs.data && rs.data.status) {
+        switch (rs.data.status) {
+          case 200:
+            createNotification('success', 'Change Status success', 'Success')();
+            fetchdata()
+            break;
+          case 300:
+            createNotification('error', rs.data.message, 'Failed')();
+            break;
+          case 400:
+            createNotification('error', rs.data.data, 'Error')();
+            break;
+          default:
+            break;
+        }
+      }
+    } catch (error) {
+      createNotification('error', "error", 'Error')();
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 300);
+    }
+  }
+
 
   useEffect(() => {
 
@@ -121,17 +165,37 @@ export default function ListAccountAdmin() {
     setTimeoutId(handler);
   };
 
+
+
+
+
+  const [showFormSendMail, setShowFormSendMail] = useState(false)
+  const [mailSendCurrent, setMailSendCurrent] = useState()
   return (
     <ListAccountPage>
       <LoadingPage isloading={isLoading} />
+
       <section className="section_filter">
         <div className="left">
 
+          <SelectInput
+            key={1}
+            defaultVl={selectPage.find(
+              (page) => page.value === location.pathname
+            )}
+            multi={false}
+            options={selectPage}
+            fnChangeOption={(selected) => { navigate(selected.value); }}
+          />
+          <Link to={"/admin/account/create"}>
+            <button><i class="fa-solid fa-plus"></i></button>
+          </Link>
+
+        </div>
+        <div className="right">
           <SearchInput
             fnChangeCallback={handelChangeSearch}
           />
-        </div>
-        <div className="right">
           <div>
             <SelectInput
               key={1}
@@ -220,7 +284,7 @@ export default function ListAccountAdmin() {
                       }}
                     >
                       <div style={{ width: "60px", padding: "0 0.5rem", margin: "auto" }}>
-                        <img style={{ width: "100%", aspectRatio: "1/1", borderRadius: "50%" }} alt='' src={item.avatar} />
+                        <img style={{ width: "100%", aspectRatio: "1/1", borderRadius: "50%" }} alt='' src={GetImageFireBase(item.avatar)} />
                       </div>
                     </td>
                     <td
@@ -295,12 +359,28 @@ export default function ListAccountAdmin() {
                           : "none",
                       }}
                     >
-                      <p className={item.status && item.status.toLowerCase() === "active" ? "active" : "deactive"}>{item.status}</p>
+                      <p onClick={() => ChangeStatusUser(item.id)} className={item.status && item.status.toLowerCase() === "active" ? "active" : "deactive"}>{item.status}</p>
                     </td>
                     <td>
-                      <Link className="link_tag">
-                        <p className='view_'>View</p>
-                      </Link>
+                      <div className='b_action___'>
+                        <div className='link_tag' onClick={() => {
+                          setShowFormSendMail(true)
+                          setMailSendCurrent(item.email)
+                        }}>
+                          <i class="fa-solid fa-envelope"
+                            data-tooltip-id="mail"
+                            data-tooltip-content="Send Mail"
+                          ></i>
+                        </div>
+                        <ReactTooltip id="mail" place="top" effect="solid" />
+                        <Link className='link_tag'>
+                          <i class="fa-solid fa-wand-magic-sparkles"
+                            data-tooltip-id="view"
+                            data-tooltip-content="View"
+                          ></i>
+                        </Link>
+                        <ReactTooltip id="view" place="top" effect="solid" />
+                      </div>
                     </td>
                   </tr>
                 ))) : (
@@ -334,6 +414,12 @@ export default function ListAccountAdmin() {
           )}
         </div>
       </section>
+      {showFormSendMail && mailSendCurrent && (
+        <SendMail
+          email={mailSendCurrent} key={"sendmail"}
+          fnClose={() => { setShowFormSendMail(prev => !prev) }}
+        />
+      )}
     </ListAccountPage>
   );
 }

@@ -6,6 +6,7 @@ import { apiRequest } from '../../../shared/hook/Api/Api';
 import { NotificationContainer } from 'react-notifications';
 import { createNotification } from '../../../shared/Config/Notifications';
 import LoadingPage from '../../../shared/Config/LoadingPage';
+import { apiRequestAutherize } from '../../../shared/hook/Api/ApiAuther';
 
 export default function Auth() {
   const [isLoading, setIsLoading] = useState(false)
@@ -27,6 +28,7 @@ export default function Auth() {
         }
         setIsLoading(true)
         var rs = await apiRequest("POST", "auth/login", loginRes)
+
         setTimeout(() => {
           setIsLoading(false)
         }, 300);
@@ -38,7 +40,7 @@ export default function Auth() {
               exp.setHours(exp.getHours() + 10);
               setCookie("authorize_token_admin", rs.data.data, { expires: exp, path: '/admin_sem4' })
               setTimeout(() => {
-                navigate("/admin")
+                navigate("/admin/dashboad")
               }, 300);
               break;
             case 201:
@@ -98,7 +100,7 @@ export default function Auth() {
           <span className='error'></span>
         </div>
         <button className='btn_submit' type='submit'>Login</button>
-        <Link className='link_tag'><p>Forgot your password?</p></Link>
+        <Link className='link_tag' to={"/forgotpassword"}><p>Forgot your password?</p></Link>
       </form>
     </div>
   )

@@ -279,10 +279,10 @@ export const headerjson = [
 
 export const typehospital = [
   { value: "", label: "All Type" },
-  { value: "Bệnh Viện Công", label: "Bệnh Viện Công" },
-  { value: "Bệnh Viện Tư", label: "Bệnh Viện Tư" },
-  { value: "Phòng Khám", label: "Phòng Khám" },
-  { value: "Trung Tâm Tiêm Chủng", label: "Trung Tâm Tiêm Chủng" },
+  { value: "Public Hospital", label: "Public Hospital" },
+  { value: "Private Hospital", label: "Private Hospital" },
+  { value: "Clinic", label: "Clinic" },
+  { value: "Health Center", label: "Health Center" },
 ];
 
 export const status = [
@@ -324,7 +324,7 @@ export const ListHospitalPage = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem 0;
+  padding: 0 0 1rem;
   .section_filter {
     width: 100%;
     display: flex;
@@ -334,23 +334,22 @@ export const ListHospitalPage = styled.div`
     .left {
       display: flex;
       gap: 1rem;
-      .box_create_newHospital{
-     
-      .link_tag{
-     button{
-      height: 2.5rem;
-      padding: 0 1rem;
-        background-color: green;
-        color:white;
-        font-weight:700;
-  border-radius: 0.3rem;
-  height: 2.5rem;
-   outline: none;
-  overflow: hidden;
-  border: 1px solid var(--shadow-black);
-  box-shadow: 0 0 2px var(--shadow-black);
-     }
-      }
+      .box_create_newHospital {
+        .link_tag {
+          button {
+            height: 2.5rem;
+            padding: 0 1rem;
+            background-color: green;
+            color: white;
+            font-weight: 700;
+            border-radius: 0.3rem;
+            height: 2.5rem;
+            outline: none;
+            overflow: hidden;
+            border: 1px solid var(--shadow-black);
+            box-shadow: 0 0 2px var(--shadow-black);
+          }
+        }
       }
     }
     .right {
@@ -451,6 +450,21 @@ export const ListHospitalPage = styled.div`
                 border-radius: 0.5rem;
                 cursor: pointer;
                 color: white;
+              }
+              .b_action___ {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                .link_tag {
+                  i {
+                    display: flex;
+                    align-items: center;
+                    background-color: var(--cl_1);
+                    justify-content: center;
+                    padding:0.4rem ;
+                    border-radius: 0.2rem;
+                  }
+                }
               }
             }
           }

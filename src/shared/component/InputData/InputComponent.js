@@ -60,7 +60,7 @@ const Input = styled.input`
 `;
 
 // React Component
-export default function InputComponent({ typeInput, Textlabel, isRequire, err, Textplacehoder, fnChange }) {
+export default function InputComponent({ defaultValue, typeInput, Textlabel, isRequire, err, Textplacehoder, fnChange }) {
   return (
     <BoxInput>
       <Label>
@@ -70,6 +70,7 @@ export default function InputComponent({ typeInput, Textlabel, isRequire, err, T
         <Input
           placeholder={Textplacehoder}
           onChange={fnChange}
+          defaultValue={defaultValue}
           type={typeInput}
           $hasError={err && err !== ''}  // Use $hasError instead of hasError
         />

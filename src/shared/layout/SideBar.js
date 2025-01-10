@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./style/Layout.scss"
 import routerMain from "./data/RouteMain.json"
-import { Link } from 'react-router-dom'
-export default function SideBar() {
+import { Link, useLocation } from 'react-router-dom'
+export default function SideBar({ paddingTopNav }) {
   const [listShow, setListShow] = useState([])
   const [itemCurrent, setItemCurrent] = useState()
   const [itemChildCurrent, setItemChildCurrent] = useState()
+  const location = useLocation()
+
+
   const handleClickShow = (index) => {
 
     if (listShow.includes(index)) {
@@ -27,15 +30,12 @@ export default function SideBar() {
 
   return (
     <div className='sidebar_P'>
-      <div className='logo_company'>
-        <Link className='link_tag' to={"/admin"}>
-          <img alt='' src={require("../../assets/images/logo/logo-05.png")} />
-        </Link>
+      <div className='logo_company' style={{ height: `${paddingTopNav}px` }}>
       </div>
-      <div className='list_router'>
+      <div className='list_router' style={{ height: `calc(100vh - ${paddingTopNav}px)` }}>
         {routerMain && routerMain.length > 0 && routerMain.map((item, index) => (
           <div className='item' key={index}>
-            <div className={itemCurrent === index ? "pattent pattent_choice" : 'pattent'} >
+            <div className={location.pathname.startsWith(item.topic) ? "pattent pattent_choice" : 'pattent'} >
               <Link className='left' onClick={() => handleClickItemPattent(index)} to={item.route !== "" ? item.route : "#"}>
 
                 <i className={item.icon}></i>
@@ -52,13 +52,8 @@ export default function SideBar() {
                 <Link onClick={() => handleClickItemChild(indexs, index)} to={items.route !== "" ? items.route : "#"} className={itemChildCurrent === indexs && itemCurrent === index ? 'link_tag child_choice' : 'link_tag'} key={indexs}><span>{items.name}</span></Link>
               ))}
             </div>
-
-
-
           </div>
         ))}
-
-
       </div>
     </div>
   )

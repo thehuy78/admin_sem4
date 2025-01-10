@@ -176,27 +176,52 @@ export default function ListBooking() {
 
 
   const exPortExcel = async () => {
-    if (token) {
-      var f = {
-        gender: filter.gender,
-        revenue: filter.revenue,
-        type: filter.type,
-        search: filter.search,
-        typeUrl: type === "list" ? "" : type,
-        idUrl: id === "all" ? "" : id,
-        hospitalCode: type === "list" ? filter.hospital : "",
-        page: 0,
-        size: 2000,
-        startDate: dateRange[0].toISOString(),
-        endDate: dateRange[1].toISOString(),
+    try {
+      if (token) {
+        var f = {
+          gender: filter.gender,
+          revenue: filter.revenue,
+          type: filter.type,
+          search: filter.search,
+          typeUrl: type === "list" ? "" : type,
+          idUrl: id === "all" ? "" : id,
+          hospitalCode: type === "list" ? filter.hospital : "",
+          page: 0,
+          size: 2000,
+          startDate: dateRange[0].toISOString(),
+          endDate: dateRange[1].toISOString(),
+        }
+        var rs = await apiRequestAutherize("post", "report/booking", token, f)
+        console.log(rs);
+        console.log(rs.data);
+        if (rs && rs.data && rs.data.status === 200) {
+          const byteCharacters = atob(rs.data.data);
+          const byteNumbers = Array.from(byteCharacters, (char) =>
+            char.charCodeAt(0)
+          );
+          const byteArray = new Uint8Array(byteNumbers);
+
+          // Tạo file blob
+          const blob = new Blob([byteArray], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+
+          // Tạo link download
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "bookings.xlsx");
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          createNotification('success', "Export File Success", "Success")()
+          // convertExcelFile(rs.data.data, `booking ${type === "list" ? filter.hospital : ""} ${type === "list" ? "" : type}${formatDateNotTime(dateRange[0])}-${formatDateNotTime(dateRange[1])}`)
+        }
       }
-      var rs = await apiRequestAutherize("post", "booking/getall", token, f)
-      console.log(rs);
-      console.log(rs.data);
-      if (rs && rs.data && rs.data.status === 200) {
-        convertExcelFile(rs.data.data.content, `booking ${type === "list" ? filter.hospital : ""} ${type === "list" ? "" : type}${formatDateNotTime(dateRange[0])}-${formatDateNotTime(dateRange[1])}`)
-      }
+    } catch (error) {
+      createNotification('error', "Export File Fails", "Export Fails")()
     }
+
 
   }
   return (

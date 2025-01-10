@@ -32,12 +32,28 @@ import ListTesting from "./features/Testing/page/ListTesting";
 import ListVaccine from "./features/Vaccine/page/ListVaccine";
 import BookingDetails from "./features/Booking/page/BookingDetails";
 import Analysis from "./features/Analysis/page/Analysis";
+import Notification from "./features/Notification/page/Notification";
+import Services from "./features/Services/page/Services";
+import CreateAccount from "./features/Account/page/CreateAccount";
+import UpdateHospital from "./features/Hospital/page/UpdateHospital";
+import ForgotPassword from "./features/Auth/page/ForgotPassword";
+import UpdatePassword from "./features/Auth/page/UpdatePassword";
+import Chat from "./features/Chat/page/Chat";
+import MapApi from "./shared/component/InputData/MapApi";
+import Transaction from "./features/Transaction/page/Transaction";
 
-
-
+import BlogList from "./features/Blogs/Page/BlogList";
+import EventList from "./features/Event/page/EventList";
+import EventDetails from "./features/Event/page/EventDetails";
+import BlogsDetails from "./features/Blogs/Page/BlogsDetails";
+import CreateBlogs from "./features/Blogs/Page/CreateBlogs";
+import EditBlogs from "./features/Blogs/Page/EditBlogs";
+import Accountant from "./features/Accountant/page/Accountant";
 
 function App() {
   const [cookies] = useCookies(["authorize_token_admin"]);
+
+
   return (
 
     < CookiesProvider > {/* Cung cấp context cho cookies */}
@@ -46,11 +62,12 @@ function App() {
           <Routes>
             {/* Protected admin routes */}
             <Route path="/admin/*" element={<ContextToken><ProtectedRoute /></ContextToken>}>
-              <Route index element={<Dashboard />} />
+              <Route path="dashboad" element={<Dashboard />} />
               <Route path="hospital/*">
                 <Route index element={<ListHospital />} />
                 <Route path=":code/service" element={<SelectService />} />
                 <Route path="create" element={<CreateHospital />} />
+                <Route path="update/:id" element={<UpdateHospital />} />
                 <Route path=":code/department" element={<ListDepartment />} />
                 <Route path=":code/package" element={<ListPackage />} />
                 <Route path=":code/testing" element={<ListTesting />} />
@@ -61,11 +78,21 @@ function App() {
               <Route path="booking/detail/:id" element={<BookingDetails />} />
               <Route path="account/customer" element={<ListAccountCustomer />} />
               <Route path="account/admin" element={<ListAccountAdmin />} />
-
+              <Route path="account/create" element={<CreateAccount />} />
               <Route path="about" element={<Aboutus />} />
-
+              <Route path="chat" element={<Chat />} />
+              <Route path="notification" element={<Notification />} />
+              <Route path="transaction" element={<Transaction />} />
+              <Route path="services" element={<Services />} />
               <Route path="analysis" element={<Analysis />} />
-
+              <Route path="setting" element={<UpdatePassword />} />
+              <Route path="blogs" element={<BlogList />} />
+              <Route path="blogs/details/:id" element={<BlogsDetails />} />
+              <Route path="blogs/create" element={<CreateBlogs />} />
+              <Route path="finance" element={<Accountant />} />
+              <Route path="event" element={<EventList />} />
+              <Route path="event/details/:id" element={<EventDetails />} />
+              <Route path="test" element={<MapApi />} />
               <Route path="*" element={<FileNotFound />} />
             </Route>
 
@@ -74,9 +101,18 @@ function App() {
               cookies && !cookies.authorize_token_admin ? (
                 <Auth />
               ) : (
-                <Navigate to="/admin" />
+                <Navigate to="/admin/dashboad" />
               )
             } />
+            <Route path="/forgotpassword" element={
+              cookies && !cookies.authorize_token_admin ? (
+                <ForgotPassword />
+              ) : (
+                <Navigate to="/admin/dashboad" />
+              )
+            } />
+
+
           </Routes>
         </LayoutSwitch>
       </LayoutProvider >

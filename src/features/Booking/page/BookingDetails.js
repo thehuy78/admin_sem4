@@ -9,7 +9,7 @@ import { formatDate, formatDateBlogDetail, formatDateNotTime } from '../../../sh
 import { formatNumberWithDot } from '../../../shared/function/FomatNumber';
 import { BookingDetailPage } from '../data/DataBooking';
 import LoadingPage from '../../../shared/Config/LoadingPage';
-
+import SendMail from "../../../shared/component/Mocup/SendMail"
 export default function BookingDetails() {
   const navigate = useNavigate()
   const { id } = useParams()
@@ -17,6 +17,8 @@ export default function BookingDetails() {
   const { token } = useAdminContext()
   const [booking, setBooking] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [formSendMail, setFormSendMail] = useState(false)
+  const [mailCurrent, setMailCurrent] = useState()
   const fetchBookingById = useCallback(async () => {
     if (id && token) {
       try {
@@ -53,7 +55,7 @@ export default function BookingDetails() {
   }, [fetchBookingById]);
 
   return booking && (
-    <BookingDetailPage>
+    <BookingDetailPage className='bookingdetail_Page'>
       <NotificationContainer />
       <LoadingPage key={"dtbk"} isloading={isLoading} />
       <section className='brums_nav'>
@@ -67,28 +69,28 @@ export default function BookingDetails() {
             <div className='tt_cn'>
               <div>
                 <p>Name:</p>
-                <p>{booking.brief.name}</p>
+                <p>{booking.name}</p>
               </div>
               <div>
                 <p>Dob:</p>
-                <p>{formatDateNotTime(booking.brief.dob)}</p>
+                <p>{formatDateNotTime(booking.dob)}</p>
               </div>
               <div>
                 <p>Gender</p>
-                <p>{booking.brief.gender}</p>
+                <p>{booking.gender}</p>
               </div>
             </div>
             <div>
               <p>Address: </p>
-              <p>{booking.brief.address}, {booking.brief.ward}, {booking.brief.district}, {booking.brief.province} </p>
+              <p>{booking.address}, {booking.ward}, {booking.district}, {booking.province} </p>
             </div>
             <div>
               <p>Identifier number:</p>
-              <p>{booking.brief.identifier}</p>
+              <p>{booking.identifier}</p>
             </div>
             <div>
               <p>Job:</p>
-              <p>{booking.brief.job}</p>
+              <p>{booking.job}</p>
             </div>
 
           </div>
@@ -100,37 +102,37 @@ export default function BookingDetails() {
                 <div className='tt_cn'>
                   <div>
                     <p>Hospital:</p>
-                    <p>{booking.hospital.name}</p>
+                    <p>{booking.hospitalName}</p>
                   </div>
                   <div>
                     <p>Code:</p>
-                    <p>{booking.hospital.code}</p>
+                    <p>{booking.hospitalCode}</p>
                   </div>
                 </div>
-                {booking.doctor && (
+                {booking.doctorName && (
 
                   <div>
                     <p>Doctor:</p>
-                    <p>{booking.doctor.level} {booking.doctor.name} [{booking.doctor.code}]</p>
+                    <p>{booking.doctoLevel} {booking.doctorName} [{booking.doctorCode}]</p>
                   </div>
 
                 )}
-                {booking.pack && (
+                {booking.packName && (
                   <div>
                     <p>Package:</p>
-                    <p>{booking.pack.name} [{booking.pack.code}]</p>
+                    <p>{booking.packName} [{booking.packCode}]</p>
                   </div>
                 )}
-                {booking.test && (
+                {booking.testName && (
                   <div>
                     <p>Testing:</p>
-                    <p>{booking.test.name} [{booking.test.code}]</p>
+                    <p>{booking.testName} [{booking.testCode}]</p>
                   </div>
                 )}
-                {booking.vaccine && (
+                {booking.vaccineName && (
                   <div>
                     <p>Vaccine:</p>
-                    <p>{booking.vaccine.name} [{booking.vaccine.code}]</p>
+                    <p>{booking.vaccineName} [{booking.vaccineCode}]</p>
                   </div>
                 )}
 
@@ -139,7 +141,7 @@ export default function BookingDetails() {
 
               </div>
               <div className='logo'>
-                <img alt='' src={booking.hospital.logo} />
+                <img alt='' src={booking.hospitalLogo} />
               </div>
             </div>
           </div>
@@ -149,11 +151,11 @@ export default function BookingDetails() {
             <p className='title'>Examination time</p>
             <div>
               <p>Medical examination day: </p>
-              <p>{formatDateBlogDetail(booking.bookingDate)}</p>
+              <p>{formatDateBlogDetail(booking.scheduleDate)}</p>
             </div>
             <div>
               <p>Medical examination time: </p>
-              <p>{booking.bookingTime}</p>
+              <p>{booking.scheduleTime}</p>
             </div>
           </div>
         </div>
@@ -174,15 +176,15 @@ export default function BookingDetails() {
             <p className='title'>Account Infomation</p>
             <div>
               <p>Email:</p>
-              <p>{booking.user.email}</p>
+              <p>{booking.email}</p>
             </div>
             <div>
               <p>FullName:</p>
-              <p>{booking.user.userDetail.firstName} {booking.user.userDetail.lastName}</p>
+              <p>{booking.firstName} {booking.lastName}</p>
             </div>
             <div>
               <p>Verify:</p>
-              <p>{booking.user.userDetail.verify ? "Verified" : "Not Verified"}</p>
+              <p>{booking.verify ? "Verified" : "Not Verified"}</p>
             </div>
           </div>
           <div className='info_account'>
@@ -201,11 +203,18 @@ export default function BookingDetails() {
             </div>
           </div>
           <div className='btn_send'>
-            <button>Send mail user</button>
+            <button onClick={() => {
+              setFormSendMail(true)
+              setMailCurrent(booking.email)
+            }}>Send mail user</button>
           </div>
         </div>
 
       </section>
+      {mailCurrent && formSendMail && (
+        <SendMail email={mailCurrent} fnClose={() => { setFormSendMail(prev => !prev) }} />
+      )}
+
     </BookingDetailPage>
   )
 }

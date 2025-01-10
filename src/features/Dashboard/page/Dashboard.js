@@ -7,7 +7,7 @@ import { useAdminContext } from '../../../shared/hook/ContextToken';
 import { apiRequestAutherize } from '../../../shared/hook/Api/ApiAuther';
 //function
 import { formatDateNotTime } from '../../../shared/function/FomatDate';
-import { SelectStyle, CaculatorPer } from "../data/dataDashboard"
+import { SelectStyle, CaculatorPer, findItem } from "../data/dataDashboard"
 import { formatNumberWithDot } from "../../../shared/function/FomatNumber"
 //json data
 import { labelData, labelSet, labelValue } from "../data/LabelChartBookingHours"
@@ -30,7 +30,7 @@ export default function Dashboard() {
     try {
       if (token) {
         var rs = await apiRequestAutherize("GET", `chart/revenueprofit`, token)
-
+        console.log(rs);
         if (rs && rs.data && rs.data.status === 200) {
           setTotalRevenueProfit(rs.data.data)
         }
@@ -111,6 +111,7 @@ export default function Dashboard() {
   const [countBookingDoW, setCountBookingDoW] = useState()
   const [labelCountBookingDow, setLableCountBookingDow] = useState()
   const [dayChartDow, setDayChartDoW] = useState(7)
+  const [labelSetDown, setLableSetDown] = useState(["This week", "Last week"])
   const fetchCountBookingByDayOffWeek = useCallback(async () => {
     try {
       if (token) {
@@ -130,6 +131,11 @@ export default function Dashboard() {
           });
           setCountBookingDoW([currentW, previousW])
           setLableCountBookingDow(label)
+          if (dayChartDow == 7) {
+            setLableSetDown(["This Week", "Last Week"])
+          } else if (dayChartDow == 30) {
+            setLableSetDown(["This Month", "Last Month"])
+          }
         }
       }
     } catch (error) {
@@ -155,6 +161,27 @@ export default function Dashboard() {
 
     }
   }, [token, dayChartTopHospital])
+
+
+
+
+  const [dayChartByType, setDayChartByType] = useState(7)
+  const [bookingGroupByType, setBookingGroupByType] = useState([])
+  const fetchCountByType = useCallback(async () => {
+    try {
+      if (token) {
+        var rs = await apiRequestAutherize("GET", `chart/bookinggroupbyType/${dayChartByType}`, token)
+        console.log(rs);
+        if (rs && rs.data && rs.data.status === 200) {
+          setBookingGroupByType(rs.data.data)
+        }
+      }
+    } catch (error) {
+    }
+  }, [token, dayChartByType])
+  useEffect(() => {
+    fetchCountByType()
+  }, [fetchCountByType]);
 
 
   useEffect(() => {
@@ -189,20 +216,123 @@ export default function Dashboard() {
 
         <div className='row_1'>
           <div className='item'>
-            <p className='title'><span>Expected revenue </span><span>Today</span></p>
-            <p className='number'>{totalRevenueProfit && totalRevenueProfit.totalRevenue && formatNumberWithDot(totalRevenueProfit.totalRevenue)} VNĐ</p>
-            {totalRevenueProfit && totalRevenueProfit.percentChangeRevenue && (
-              <p className={totalRevenueProfit.percentChangeProfit > 0 ? "up" : "down"}> {totalRevenueProfit.percentChangeRevenue > 0 ? (<i class="fa-solid fa-arrow-up-wide-short"></i>) : (<i class="fa-solid fa-arrow-down-wide-short"></i>)} {totalRevenueProfit.percentChangeRevenue.toFixed(2)}%</p>
-            )}
+            <p className='title'>
+              <span>Revenue </span><span>Today</span>
+            </p>
+            {totalRevenueProfit && totalRevenueProfit.percentChangeRevenue ? (
+              <div className='css_line'>
+                <div style={{ width: '100%', height: '300px', position: 'relative' }}>
+                  <svg width="100%" height="100%" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="gradientRevenue" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: totalRevenueProfit?.percentChangeRevenue >= 0 ? "green" : "red", stopOpacity: 0.8 }} />
+                        <stop offset="70%" style={{ stopColor: totalRevenueProfit?.percentChangeRevenue >= 0 ? "green" : "red", stopOpacity: 0 }} />
+                      </linearGradient>
+                    </defs>
+
+                    {/* Vẽ vùng bên dưới đường biểu đồ, dùng gradient */}
+                    <path
+                      d="M10,270 
+              C50,260, 90,250, 130,230 
+              S170,240, 210,230 
+              S250,210, 290,220 
+              S330,200, 370,210 
+              S410,190, 450,180 
+              L500,300 L10,300 Z"
+                      fill="url(#gradientRevenue)" // Sử dụng gradient dành cho doanh thu
+                    />
+
+                    {/* Vẽ đường biểu đồ */}
+                    <path
+                      d="M10,270 
+              C50,260, 90,250, 130,230 
+              S170,240, 210,230 
+              S250,210, 290,220 
+              S330,200, 370,210 
+              S410,190, 450,180"
+                      stroke={totalRevenueProfit?.percentChangeRevenue >= 0 ? "green" : "red"}
+                      strokeWidth="3"
+                      fill="none"
+                    />
+                  </svg>
+                </div>
+              </div>
+            ) : (<></>)}
+            <p className='number'>
+              {totalRevenueProfit && totalRevenueProfit.totalRevenue && formatNumberWithDot(totalRevenueProfit.totalRevenue)} VNĐ
+            </p>
+            {totalRevenueProfit && totalRevenueProfit.percentChangeRevenue ? (
+              <p className={totalRevenueProfit.percentChangeRevenue > 0 ? "up" : "down"}>
+                {totalRevenueProfit.percentChangeRevenue > 0 ? (
+                  <i className="fa-solid fa-arrow-up-wide-short"></i>
+                ) : (
+                  <i className="fa-solid fa-arrow-down-wide-short"></i>
+                )}
+                {totalRevenueProfit.percentChangeRevenue.toFixed(2)}%
+              </p>
+            ) : (<></>)}
           </div>
+
           <div className='item'>
-            <p className='title'><span>Expected profit </span><span>Today</span></p>
-            <p className='number'>{totalRevenueProfit && totalRevenueProfit.totalProfit && formatNumberWithDot(totalRevenueProfit.totalProfit)} VNĐ</p>
-            {totalRevenueProfit && totalRevenueProfit.percentChangeProfit && (
-              <p className={totalRevenueProfit.percentChangeProfit > 0 ? "up" : "down"}> {totalRevenueProfit.percentChangeProfit > 0 ? (<i class="fa-solid fa-arrow-up-wide-short"></i>) : (<i class="fa-solid fa-arrow-down-wide-short"></i>)} {totalRevenueProfit.percentChangeProfit.toFixed(2)}%</p>
-            )}
+            <p className='title'>
+              <span>Profit </span><span>Today</span>
+            </p>
+            {totalRevenueProfit && totalRevenueProfit?.percentChangeProfit ? (
+              <div className='css_line_1'>
+                <div style={{ width: '100%', height: '300px', position: 'relative' }}>
+                  <svg width="100%" height="100%" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="gradientProfit" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: totalRevenueProfit?.percentChangeProfit > 0 ? "green" : "rgb(179, 31, 31)", stopOpacity: 0.8 }} />
+                        <stop offset="70%" style={{ stopColor: totalRevenueProfit?.percentChangeProfit > 0 ? "green" : "rgb(179, 31, 31)", stopOpacity: 0 }} />
+                      </linearGradient>
+                    </defs>
+
+                    {/* Vẽ vùng bên dưới đường biểu đồ, dùng gradient */}
+                    <path
+                      d="M10,270 
+              C50,210, 90,100, 130,180 
+              S170,50, 210,130 
+              S250,50, 290,100 
+              S330,70, 370,120 
+              S410,40, 450,60 
+              L500,300 L10,300 Z"
+                      fill="url(#gradientProfit)" // Sử dụng gradient dành cho lợi nhuận
+                    />
+
+                    {/* Vẽ đường biểu đồ */}
+                    <path
+                      d="M10,270 
+              C50,210, 90,100, 130,180 
+              S170,50, 210,130 
+              S250,50, 290,100 
+              S330,70, 370,120 
+              S410,40, 450,60"
+                      stroke={totalRevenueProfit?.percentChangeProfit > 0 ? "green" : "rgb(179, 31, 31)"} // Fixed the condition for stroke color
+                      strokeWidth="3"
+                      fill="none"
+                    />
+                  </svg>
+                </div>
+              </div>
+            ) : (<></>)}
+            <p className='number'>
+              {totalRevenueProfit && totalRevenueProfit.totalProfit && formatNumberWithDot(totalRevenueProfit.totalProfit)} VNĐ
+            </p>
+            {totalRevenueProfit && totalRevenueProfit?.percentChangeProfit ? (
+              <p className={totalRevenueProfit.percentChangeProfit > 0 ? "up" : "down"}>
+                {totalRevenueProfit?.percentChangeProfit > 0 ? (
+                  <i className="fa-solid fa-arrow-up-wide-short"></i>
+                ) : (
+                  <i className="fa-solid fa-arrow-down-wide-short"></i>
+                )}
+                {totalRevenueProfit.percentChangeProfit.toFixed(2)}%
+              </p>
+            ) : (<></>)}
           </div>
         </div>
+
+
         <div className='row_2'>
           <div className='item'>
             <div className='b_info'>
@@ -216,7 +346,67 @@ export default function Dashboard() {
           </div>
         </div>
         <div className='row_3'>
-          <div className='item'></div>
+          <div className='item'>
+            <div className='b_info'>
+              <p>Top Hospital</p>
+              <SelectStyle defaultValue={dayChartTopHospital} onChange={(e) => { setDayChartTopHospital(e.target.value) }}>
+                <option value={1}>Today</option>
+                <option value={7}>Last 7 days</option>
+                <option value={30}>Last 30 days</option>
+                <option value={365}>1 Year Recently</option>
+              </SelectStyle>
+            </div>
+            <div className='list_chart_item'>
+              <table className='table_'>
+                <thead>
+                  <tr>
+                    <th><p>Rank</p></th>
+                    <th><p>Hospital</p></th>
+                    <th><p>Booking</p></th>
+                    <th><p>Revenue</p></th>
+                    <th><p>Proportion</p></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {topHospital && topHospital.length > 0 && topHospital.map((item, index) => (
+                    <tr>
+                      <td><p><i style={{ color: index === 0 ? "yellow" : index === 1 ? "white" : "rgb(139, 114, 86)" }} class="fa-solid fa-crown"></i> {index + 1}</p></td>
+                      <td><p>{item.code}</p></td>
+                      <td><p>{item.bookingCount}</p></td>
+                      <td><p>{formatNumberWithDot(item.revenueTotal)}</p></td>
+                      <td><p>{totalBookingTop && CaculatorPercentfn(item.bookingCount, totalBookingTop).toFixed(1)} %</p></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className='right'>
+        <div className='row_3'>
+          <div className='item'>
+            <div className='b_info'>
+              <p>Booking</p>
+              <div>
+                <SelectStyle defaultValue={dayChartDow} onChange={(e) => {
+                  setDayChartDoW(e.target.value)
+
+
+                }}>
+                  <option value={7}>7 days</option>
+                  <option value={30}>30 days</option>
+
+                </SelectStyle>
+              </div>
+            </div>
+            {countBookingDoW && countBookingDoW.length > 0 && labelCountBookingDow && labelCountBookingDow.length > 0 && (
+              <ChartBookingByDayOfWeek data={countBookingDoW} labelData={labelCountBookingDow} labelSet={labelSetDown} labelValue={labelValueDoW} key={"r_2"} />
+            )}
+          </div>
+        </div>
+        <div className='row_1'>
           <div className='item item_l'>
             <div className='b_info'>
               <p>Gender</p>
@@ -248,61 +438,6 @@ export default function Dashboard() {
 
             </div>
           </div>
-        </div>
-      </div>
-      <div className='right'>
-        <div className='row_3'>
-          <div className='item'>
-            <div className='b_info'>
-              <p>Booking</p>
-              <div>
-                <SelectStyle defaultValue={dayChartDow} onChange={(e) => { setDayChartDoW(e.target.value) }}>
-                  <option value={7}>7 days</option>
-                  <option value={30}>30 days</option>
-
-                </SelectStyle>
-              </div>
-            </div>
-            {countBookingDoW && countBookingDoW.length > 0 && labelCountBookingDow && labelCountBookingDow.length > 0 && (
-              <ChartBookingByDayOfWeek data={countBookingDoW} labelData={labelCountBookingDow} labelSet={labelSetDoW} labelValue={labelValueDoW} key={"r_2"} />
-            )}
-          </div>
-        </div>
-        <div className='row_1'>
-          <div className='item'>
-            <div className='b_info'>
-              <p>Top Hospital</p>
-              <SelectStyle defaultValue={dayChartTopHospital} onChange={(e) => { setDayChartTopHospital(e.target.value) }}>
-                <option value={1}>Today</option>
-                <option value={7}>Last 7 days</option>
-                <option value={30}>Last 30 days</option>
-                <option value={365}>1 Year Recently</option>
-              </SelectStyle>
-            </div>
-            <div className='list_chart_item'>
-              {topHospital && topHospital.length > 0 && topHospital.map((item, index) => (
-                <div className='item_hospital' key={index}>
-                  <div className='b_top_info_hospital'>
-                    <p className='count_top'><i style={{ color: index === 0 ? "yellow" : index === 1 ? "white" : "rgb(139, 114, 86)" }} class="fa-solid fa-crown"></i></p>
-                    <div className='info_hospital'>
-                      <div className='name_hosp'>
-                        <p>{item[0]}</p>
-                        <p>{totalBookingTop && CaculatorPercentfn(item[1], totalBookingTop).toFixed(1)} %</p>
-                      </div>
-                      <div className='b_value'>
-                        {totalBookingTop && (
-                          <p className='value' style={{ width: `${CaculatorPercentfn(item[1], totalBookingTop)}%` }}></p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              ))}
-
-
-            </div>
-          </div>
           <div className='item'>
             <div className='b_info'>
               <p>Age User</p>
@@ -324,29 +459,45 @@ export default function Dashboard() {
         <div className='row_2'>
           <div className='item'>
             <div className='b_info'>
-              <p>Region</p>
-              <p>Filter</p>
-            </div>
-            <div className='list_item_region'>
-              <div className='item_region south'>
-                <div>
-                  <p>34</p>
-                </div>
-                <p className='title_'>Southern</p>
-              </div>
-              <div className='item_region central'>
-                <div>
-                  <p>12</p>
-                </div>
-                <p className='title_'>Central</p>
-              </div>
-              <div className='item_region north'>
-                <div>
-                  <p>15</p>
-                </div>
-                <p className='title_'>North</p>
+              <p>Type Booking</p>
+              <div>
+                <SelectStyle defaultValue={dayChartByType} onChange={(e) => { setDayChartByType(e.target.value) }}>
+                  <option value={1}>Today</option>
+                  <option value={7}>Last 7 days</option>
+                  <option value={30}>Last 30 days</option>
+                  <option value={365}>1 Year Recently</option>
+                </SelectStyle>
               </div>
             </div>
+            {bookingGroupByType && (
+              <div className='list_item_region'>
+                <div className='item_region doctor'>
+                  <div>
+                    <p>{findItem(bookingGroupByType, 'doctor')}</p>
+                  </div>
+                  <p className='title_'>Doctor</p>
+                </div>
+                <div className='item_region package'>
+                  <div>
+                    <p>{findItem(bookingGroupByType, 'package')}</p>
+                  </div>
+                  <p className='title_'>Package</p>
+                </div>
+                <div className='item_region testing'>
+                  <div>
+                    <p>{findItem(bookingGroupByType, 'testing')}</p>
+                  </div>
+                  <p className='title_'>Testing</p>
+                </div>
+                <div className='item_region vaccine'>
+                  <div>
+                    <p>{findItem(bookingGroupByType, 'vaccine')}</p>
+                  </div>
+                  <p className='title_'>Vaccine</p>
+                </div>
+              </div>
+            )}
+
 
           </div>
         </div>
