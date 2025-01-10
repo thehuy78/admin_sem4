@@ -30,7 +30,7 @@ export default function Chat() {
     }
   }, [messages]);
   useEffect(() => {
-    const sock = new SockJS('http://103.12.77.74:8082/ws'); // WebSocket URL
+    const sock = new SockJS('http://localhost:8082/ws'); // WebSocket URL
     const stompClient = new Client({
       webSocketFactory: () => sock,
       debug: (str) => { console.log(str); },

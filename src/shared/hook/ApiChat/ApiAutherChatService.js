@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const urlApi = "http://103.12.77.74:8080/chatservice/";
-
+// const urlApi = "http://103.12.77.74:8080/chatservice/";
+const urlApi = "http://localhost:8080/chatservice/";
 export const apiRequestAutherize = async (method, uri, cookies, data = null) => {
     try {
         const config = {
