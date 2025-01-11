@@ -2,8 +2,8 @@ import axios from 'axios';
 import { withCookies } from 'react-cookie';
 
 
-const urlApi = "http://localhost:8080/systemservice/api/admin/";
-
+//const urlApi = "http://localhost:8080/systemservice/api/admin/";
+const urlApi = "http://103.12.77.74:8080/systemservice/api/admin/";
 export const apiRequestForm = async (method, uri, data = null) => {
     try {
         const config = {
